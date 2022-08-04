@@ -1,4 +1,4 @@
-Trying out Pixel art therapy to code my own game 
+Learning to code pixels!
      
 
 <!---
