@@ -1,0 +1,2313 @@
+<!DOCTYPE HTML><html><head><meta charset="UTF-8"><title>Write your game's title here</title>
+<script type="text/bitsyGameData" id="exportedGameData">
+IMPORT https://raw.githubusercontent.com/rustythehuman/rustythehuman.github.io/main/itch/00/01.js
+</script>
+<style>html{margin:0;padding:0}body{margin:0;padding:0;overflow:hidden;background:#fff}#game{background:#000;width:100vw;max-width:100vh;margin:auto;display:block}</style><script>function startExportedGame(){var e=document.getElementById("game"),t=document.getElementById("exportedGameData").text.slice(1),m=document.getElementById(defaultFontName).text.slice(1);loadGame(e,t,m),initSystem()}</script><script>function InputSystem(){var n,o,i,r=this,t=!(this.Key={LEFT:37,RIGHT:39,UP:38,DOWN:40,SPACE:32,ENTER:13,W:87,A:65,S:83,D:68,R:82,SHIFT:16,CTRL:17,ALT:18,CMD:224}),s={None:-1,Up:0,Down:1,Left:2,Right:3};function u(){t=!1,n={},i={isDown:!(o={}),startX:0,startY:0,curX:0,curY:0,swipeDistance:30,swipeDirection:s.None,tapReleased:!1}}u(),this.ignoreHeldKeys=function(){for(var e in n)n[e]&&(o[e]=!0)},this.onkeydown=function(e){enableGlobalAudioContext(),function(e){e.keyCode!=r.Key.LEFT&&e.keyCode!=r.Key.RIGHT&&e.keyCode!=r.Key.UP&&e.keyCode!=r.Key.DOWN&&isPlayerEmbeddedInEditor||e.preventDefault()}(e),t=function(e){return e.keyCode===r.Key.R&&(e.getModifierState("Control")||e.getModifierState("Meta"))}(e),r.isKeyDown(r.Key.SHIFT)||r.isKeyDown(r.Key.CTRL)||r.isKeyDown(r.Key.ALT)||r.isKeyDown(r.Key.CMD)||(function(e){return e.keyCode==r.Key.SHIFT||e.keyCode==r.Key.CTRL||e.keyCode==r.Key.ALT||e.keyCode==r.Key.CMD}(e)&&u(),o[e.keyCode]||(n[e.keyCode]=!0,o[e.keyCode]=!1))},this.onkeyup=function(e){n[e.keyCode]=!1,o[e.keyCode]=!1},this.ontouchstart=function(e){enableGlobalAudioContext(),e.preventDefault(),0<e.changedTouches.length&&(i.isDown=!0,i.startX=i.curX=e.changedTouches[0].clientX,i.startY=i.curY=e.changedTouches[0].clientY,i.swipeDirection=s.None)},this.ontouchmove=function(e){if(e.preventDefault(),i.isDown&&0<e.changedTouches.length){i.curX=e.changedTouches[0].clientX,i.curY=e.changedTouches[0].clientY;var t=i.swipeDirection;i.curX-i.startX<=-i.swipeDistance?i.swipeDirection=s.Left:i.curX-i.startX>=i.swipeDistance?i.swipeDirection=s.Right:i.curY-i.startY<=-i.swipeDistance?i.swipeDirection=s.Up:i.curY-i.startY>=i.swipeDistance&&(i.swipeDirection=s.Down),i.swipeDirection!=t&&(i.startX=i.curX,i.startY=i.curY)}},this.ontouchend=function(e){e.preventDefault(),i.isDown=!1,i.swipeDirection==s.None&&(i.tapReleased=!0),i.swipeDirection=s.None},this.isKeyDown=function(e){return null!=n[e]&&1==n[e]&&(null==o[e]||0==o[e])},this.anyKeyDown=function(){var e=!1;for(var t in n)!n[t]||null!=o[t]&&0!=o[t]||t===r.Key.UP||t===r.Key.DOWN||t===r.Key.LEFT||t===r.Key.RIGHT||t===r.Key.W||t===r.Key.S||t===r.Key.A||t===r.Key.D||(e=!0);return e},this.isRestartComboPressed=function(){return t},this.swipeLeft=function(){return i.swipeDirection==s.Left},this.swipeRight=function(){return i.swipeDirection==s.Right},this.swipeUp=function(){return i.swipeDirection==s.Up},this.swipeDown=function(){return i.swipeDirection==s.Down},this.isTapReleased=function(){return i.tapReleased},this.resetTapReleased=function(){i.tapReleased=!1},this.onblur=function(){u()},this.resetAll=u,this.listen=function(e){if(document.addEventListener("keydown",r.onkeydown),document.addEventListener("keyup",r.onkeyup),isPlayerEmbeddedInEditor)e.addEventListener("touchstart",r.ontouchstart,{passive:!1}),e.addEventListener("touchmove",r.ontouchmove,{passive:!1}),e.addEventListener("touchend",r.ontouchend,{passive:!1});else if(null===document.querySelector("#touchTrigger")){var t=document.createElement("div");t.setAttribute("id","touchTrigger"),t.setAttribute("style","position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; overflow: hidden;"),document.body.appendChild(t),t.addEventListener("touchstart",r.ontouchstart),t.addEventListener("touchmove",r.ontouchmove),t.addEventListener("touchend",r.ontouchend)}window.onblur=r.onblur},this.unlisten=function(e){if(document.removeEventListener("keydown",r.onkeydown),document.removeEventListener("keyup",r.onkeyup),isPlayerEmbeddedInEditor)e.removeEventListener("touchstart",r.ontouchstart),e.removeEventListener("touchmove",r.ontouchmove),e.removeEventListener("touchend",r.ontouchend);else{var t=document.querySelector("#touchTrigger");null!==t&&(t.removeEventListener("touchstart",r.ontouchstart),t.removeEventListener("touchmove",r.ontouchmove),t.removeEventListener("touchend",r.ontouchend),t.parentElement.removeChild(t))}window.onblur=null}}</script><script>var audioContext=new AudioContext;function enableGlobalAudioContext(){audioContext.resume()}function SoundSystem(){for(var t=new Float32Array(256),e=0;e<256;e++)t[e]=e/256*2-1.75;var o=new Float32Array(256);for(e=0;e<256;e++)o[e]=e/256*2-1.5;var u=new Float32Array(256);for(e=0;e<256;e++)u[e]=e/256*2-1;var n=[t,o,u];function a(){var t=audioContext.createOscillator();t.type="sawtooth";var e=audioContext.createGain();e.gain.value=0;for(var o=new Float32Array(256),n=0;n<128;n++)o[n]=-1;for(n=128;n<256;n++)o[n]=1;var a=audioContext.createWaveShaper();a.curve=o;var r=audioContext.createWaveShaper();return r.curve=u,t.connect(r),r.connect(a),a.connect(e),e.connect(audioContext.destination),t.start(),{oscillator:t,volumeControl:e,dutyShaper:r}}var r=[a(),a()];this.setPulse=function(t,e){r[t].dutyShaper.curve=n[e]},this.setFrequency=function(t,e){r[t].oscillator.frequency.setValueAtTime(e,audioContext.currentTime)},this.setVolume=function(t,e){r[t].volumeControl.gain.value=.15*e},this.mute=function(){for(var t=0;t<r.length;t++)r[t].volumeControl.gain.value=0}}var sound=new SoundSystem</script><script>function GraphicsSystem(){var i,h,m,w,n=[],C=[],x=[];function I(t,e){var i=3*t;return e?"rgba("+n[0+i]+","+n[1+i]+","+n[2+i]+", 0)":"rgb("+n[0+i]+","+n[1+i]+","+n[2+i]+")"}this._images=C,this._getPalette=function(){return n},this.attachCanvas=function(t,e){(i=t).width=e*m,i.height=e*m,h=i.getContext("2d")},this.getCanvas=function(){return i},this.getContext=function(){return h},this.setScale=function(t){m=t},this.setTextScale=function(t){w=t},this.getTextScale=function(){return w},this.setPalette=function(t){n=t},this.createImage=function(t,e,i,n,a){var h=!0===a?w:m,l=e*h,r=i*h,s=C[t];void 0!==s&&s.width==l&&s.height==r||((s=document.createElement("canvas")).width=l,s.height=r);var c,g=s.getContext("2d");null!=x[t]&&((v=0===(c=x[t]))?g.clearRect(0,0,s.width,s.height):(g.fillStyle=I(c,v),g.fillRect(0,0,s.width,s.height)));for(var o=0;o<n.length;o++){var u=o%e,f=Math.floor(o/e),d=n[o];if(d!=c){var v=0===d;g.fillStyle=I(d,v),g.fillRect(u*h,f*h,h,h)}}C[t]=s},this.setImageFill=function(t,e){x[t]=e},this.drawImage=function(t,e,i,n){if(C[t]){var a=h;if(null!=n)a=C[n].getContext("2d");a.drawImage(C[t],e*m,i*m,C[t].width,C[t].height)}else bitsyLog("image doesn't exist: "+t,"graphics")},this.hasImage=function(t){return null!=C[t]},this.getImage=function(t){return C[t]},this.deleteImage=function(t){delete C[t],delete x[t]},this.getCanvas=function(){return i},this.clearCanvas=function(t){bitsyLog("pal? "+n.length+" / "+t,"graphics"),h.fillStyle=I(t),h.fillRect(0,0,i.width,i.height)}}</script><script>var DebugLogCategory={input:!1,sound:!1,graphics:!1,system:!1,bitsy:!1,editor:!1,room:!1,tune:!1,blip:!1},isLoggingVerbose=!1;function bitsyLog(e,t){t||(t="bitsy");var s=t+"::"+e;!0===DebugLogCategory[t]&&(isLoggingVerbose?(console.group(s),console.dir(e),console.group("stack"),console.trace(),console.groupEnd(),console.groupEnd()):console.log(s))}var canvas,ctx,tilesize=8,mapsize=16,width=mapsize*tilesize,height=mapsize*tilesize,scale=4,textScale=2,updateInterval=null,prevTime=0,deltaTime=0;function initSystem(){prevTime=Date.now(),updateInterval=setInterval(updateSystem,16)}function updateSystem(){var e=Date.now();deltaTime=e-prevTime;for(var t=0;t<processes.length;t++){if((bitsy=processes[t].system)._active)bitsyLog(bitsy._name+" img count: "+bitsy._graphics._images.length,"system"),bitsy._update(deltaTime)||"bitsy"!=bitsy._name&&bitsy._exit()}bitsy=mainProcess.system,prevTime=e}function loadGame(e,t,s){bitsyLog("load!","system"),bitsy._attachCanvas(e),bitsy._write(bitsy._gameDataBlock,t),bitsy._write(bitsy._fontDataBlock,s),bitsy._start()}function quitGame(){bitsy._injectPreLoop=function(){bitsy._poke(bitsy._buttonBlock,bitsy.BTN_MENU,1)},bitsy._update(0),bitsy._exit(),bitsy._injectPreLoop=null}function attachCanvas(e){bitsy._attachCanvas(e),canvas=bitsy._getCanvas(),ctx=bitsy._getContext()}var processes=[];function addProcess(e){var t={};return t.system=new BitsySystem(e),processes.push(t),t}function BitsySystem(t){var k=this;t||(t="bitsy");var y={blocks:[],changed:[]},i=new InputSystem,r=new SoundSystem,c=0,_=1,l=2,h=3,u=15,f=new GraphicsSystem;f.setScale(scale),f.setTextScale(textScale);var d=null,m=512;function a(){var e=k._peek(v,1)===k.TXT_LOREZ?scale:textScale;f.getTextScale()!=e&&(f.setTextScale(e),y.changed[k.TEXTBOX]=!0)}function n(){if(!1!==k._enableGraphics){if(bitsyLog("update graphics","system"),y.changed[b]&&f.setPalette(k._dump()[b]),null!=d)for(var e=0;e<m;e++){var t=d+e;null!=y.blocks[t]&&y.changed[t]&&(bitsyLog("tile changed? "+t,"system"),f.createImage(t,k.TILE_SIZE,k.TILE_SIZE,k._dump()[t]))}var s=y.changed[k.TEXTBOX]||y.changed[E];if(s){var i=k._peek(E,3),a=k._peek(E,4);if(0<i&&0<a){bitsyLog("textbox changed! "+y.changed[k.TEXTBOX]+" "+y.changed[E]+" "+i+" "+a,"system");f.createImage(k.TEXTBOX,i,a,k._dump()[k.TEXTBOX],!0)}}var n=k._peek(v,0);if(n===k.GFX_VIDEO)y.changed[k.VIDEO]&&(f.clearCanvas(0),f.createImage(k.VIDEO,k.VIDEO_SIZE,k.VIDEO_SIZE,k._dump()[k.VIDEO]),f.drawImage(k.VIDEO,0,0));else if(n===k.GFX_MAP){var o=k._getTileMapLayers(),r=!1;for(e=0;e<o.length;e++){var c=o[e];if(y.changed[c]){r=!0,f.setImageFill(c,0),f.createImage(c,k.VIDEO_SIZE,k.VIDEO_SIZE,[]);for(var _=k._dump()[c],l=0;l<k.MAP_SIZE;l++)for(var h=0;h<k.MAP_SIZE;h++){0<(t=_[l*k.MAP_SIZE+h])&&f.drawImage(t,h*k.TILE_SIZE,l*k.TILE_SIZE,c)}}}if(s||r){bitsyLog("map changed? "+y.changed[k.MAP1]+" "+y.changed[k.MAP2],"system"),f.clearCanvas(0);for(e=0;e<o.length;e++){c=o[e];f.drawImage(c,0,0)}var u=k._peek(E,0),p=k._peek(E,1),g=k._peek(E,2);i=k._peek(E,3),a=k._peek(E,4);0<u&&0<i&&0<a&&f.drawImage(k.TEXTBOX,p,g)}}}}this._graphics=f,this._name=t,this._active=!1,this._attachCanvas=function(e){f.attachCanvas(e,k.VIDEO_SIZE)},this._getCanvas=f.getCanvas,this._getContext=f.getContext,this._start=function(){i.listen(f.getCanvas()),a(),k._active=!0},this._startNoInput=function(){a(),k._active=!0},this._exit=function(){i.unlisten(f.getCanvas()),r.mute(),k._active=!1},this._injectPreLoop=null,this._injectPostDraw=null,this._update=function(e){var t=!1;k._poke(k._buttonBlock,k.BTN_UP,i.isKeyDown(i.Key.UP)||i.isKeyDown(i.Key.W)||i.swipeUp()?1:0),k._poke(k._buttonBlock,k.BTN_DOWN,i.isKeyDown(i.Key.DOWN)||i.isKeyDown(i.Key.S)||i.swipeDown()?1:0),k._poke(k._buttonBlock,k.BTN_LEFT,i.isKeyDown(i.Key.LEFT)||i.isKeyDown(i.Key.A)||i.swipeLeft()?1:0),k._poke(k._buttonBlock,k.BTN_RIGHT,i.isKeyDown(i.Key.RIGHT)||i.isKeyDown(i.Key.D)||i.swipeRight()?1:0),k._poke(k._buttonBlock,k.BTN_OK,i.anyKeyDown()||i.isTapReleased()?1:0),k._poke(k._buttonBlock,k.BTN_MENU,i.isRestartComboPressed()?1:0),i.resetTapReleased(),k._injectPreLoop&&k._injectPreLoop(),g&&(t=g(e)),y.changed[v]&&a(),function(e){var t=y.changed[k.SOUND1],s=y.changed[k.SOUND2],i=k._peek(k.SOUND1,c);(i-=e)<=0&&(i=0)<k._peek(k.SOUND1,l)&&(k._poke(k.SOUND1,l,0),t=!0),k._poke(k.SOUND1,c,i);var a=k._peek(k.SOUND2,c);if((a-=e)<=0&&(a=0)<k._peek(k.SOUND2,l)&&(k._poke(k.SOUND2,l,0),s=!0),k._poke(k.SOUND2,c,a),t){r.setPulse(0,k._peek(k.SOUND1,h));var n=k._peek(k.SOUND1,_)/100;r.setFrequency(0,n);var o=k._peek(k.SOUND1,l);o=Math.max(0,Math.min(o,u)),volumeNorm=o/u,r.setVolume(0,volumeNorm)}s&&(r.setPulse(1,k._peek(k.SOUND2,h)),n=k._peek(k.SOUND2,_)/100,r.setFrequency(1,n),o=k._peek(k.SOUND2,l),o=Math.max(0,Math.min(o,u)),volumeNorm=o/u,r.setVolume(1,volumeNorm))}(e),n(),k._injectPostDraw&&k._injectPostDraw();for(var s=0;s<y.changed.length;s++)y.changed[s]=!1;return t},this._updateGraphics=n,this._allocate=function(e){for(var t=e&&e.start?e.start:0,s=e&&e.max?e.max:-1;null!=y.blocks[t]&&0!=s;)t++,s--;if(null!=y.blocks[t])return null;if(e&&e.str)y.blocks[t]=e.str;else{var i=e&&e.size?e.size:0;y.blocks[t]=[];for(var a=0;a<i;a++)y.blocks[t].push(0)}return y.changed[t]=!1,t},this._free=function(e){delete y.blocks[e],delete y.changed[e]},this._peek=function(e,t){var s=y.blocks[e];return"string"==typeof s?s.charCodeAt(t):s[t]},this._poke=function(e,t,s){var i=y.blocks[e];if("string"==typeof i)y.blocks[e]=i.substring(0,t)+String.fromCharCode(s)+i.substring(t+1);else{s=parseInt(s);isNaN(s)||(i[t]=s)}y.changed[e]=!0},this._read=function(e){var t=y.blocks[e];if("string"==typeof t)return t;for(var s="",i=0;i<t.length;i++)s+=String.fromCharCode(t[i]);return s},this._write=function(e,t){if("string"==typeof y.blocks[e])y.blocks[e]=t;else{y.blocks[e]=[];for(var s=0;s<t.length;s++)y.blocks[e][s]=t.charCodeAt(s)}y.changed[e]=!0},this._dump=function(){return y.blocks};var s=[];this._getTileMapLayers=function(){return s},this._addTileMapLayer=function(){var e=k._allocate({start:d+m,size:k.MAP_SIZE*k.MAP_SIZE});return s.push(e),e},this.VIDEO,this.TEXTBOX,this.MAP1,this.MAP2,this.SOUND1,this.SOUND2,this.GFX_VIDEO=0,this.GFX_MAP=1,this.TXT_HIREZ=0,this.TXT_LOREZ=1,this.TILE_SIZE=tilesize,this.MAP_SIZE=mapsize,this.VIDEO_SIZE=width,this.BTN_UP=0,this.BTN_DOWN=1,this.BTN_LEFT=2,this.BTN_RIGHT=3,this.BTN_OK=4,this.BTN_MENU=5,this.PULSE_1_8=0,this.PULSE_1_4=1,this.PULSE_1_2=2,this.log=function(e){bitsyLog(e,t)},this.button=function(e){return 0<k._peek(p,e)},this.getGameData=function(){return k._read(e)},this.getFontData=function(){return k._read(o)},this.graphicsMode=function(e){return null!=e&&k._poke(v,0,e),k._peek(v,0)},this.textMode=function(e){return null!=e&&k._poke(v,1,e),k._peek(v,1)},this.color=function(e,t,s,i){if(k._poke(b,3*e+0,t),k._poke(b,3*e+1,s),k._poke(b,3*e+2,i),y.changed[k.VIDEO]=!0,y.changed[k.TEXTBOX]=!0,y.changed[k.MAP1]=!0,y.changed[k.MAP2]=!0,null!=d)for(var a=0;a<m;a++)null!=y.blocks[d+a]&&(y.changed[d+a]=!0)},this.tile=function(){return k._allocate({start:d,max:m,size:k.TILE_SIZE*k.TILE_SIZE})},this.delete=function(e){f.hasImage(e)&&f.deleteImage(e),k._free(e)},this.fill=function(e,t){for(var s=y.blocks[e].length,i=0;i<s;i++)k._poke(e,i,t);(e===k.VIDEO||e===k.TEXTBOX||d<=e&&e<d+m)&&f.setImageFill(e,t)},this.set=function(e,t,s){k._poke(e,t,s)},this.textbox=function(e,t,s,i,a){null!=e&&k._poke(E,0,!0===e?1:0),null!=t&&k._poke(E,1,t),null!=s&&k._poke(E,2,s);var n=k._peek(E,3),o=k._peek(E,4);if(null!=i&&k._poke(E,3,i),null!=a&&k._poke(E,4,a),null!=i&&null!=a&&(n!=i||o!=a)){y.blocks[k.TEXTBOX]=[];for(var r=0;r<i*a;r++)y.blocks[k.TEXTBOX].push(0);y.changed[k.TEXTBOX]=!0}},this.sound=function(e,t,s,i,a){k._poke(e,c,t),k._poke(e,_,s),k._poke(e,l,i),k._poke(e,h,a)},this.frequency=function(e,t){k._poke(e,_,t)},this.volume=function(e,t){k._poke(e,l,t)},this.loop=function(e){g=e};var e=this._allocate({str:""}),o=this._allocate({str:""});this.VIDEO=this._allocate({size:k.VIDEO_SIZE*k.VIDEO_SIZE}),this.TEXTBOX=this._allocate(),this.MAP1=this._allocate({size:k.MAP_SIZE*k.MAP_SIZE}),s.push(this.MAP1),this.MAP2=this._allocate({size:k.MAP_SIZE*k.MAP_SIZE}),s.push(this.MAP2);var b=this._allocate({size:192}),p=this._allocate({size:8});this.SOUND1=this._allocate({size:4}),this.SOUND2=this._allocate({size:4});var v=this._allocate({size:8}),E=this._allocate({size:8});d=E+1,this._gameDataBlock=e,this._fontDataBlock=o,this._buttonBlock=p;var g=null}var mainProcess=addProcess(),bitsy=mainProcess.system</script><script>var titleDialogId="title",tileColorStartIndex=16,TextDirection={LeftToRight:"LTR",RightToLeft:"RTL"},defaultFontName="ascii_small",barLength=16,minTuneLength=1,maxTuneLength=16,Note={NONE:-1,C:0,C_SHARP:1,D:2,D_SHARP:3,E:4,F:5,F_SHARP:6,G:7,G_SHARP:8,A:9,A_SHARP:10,B:11,COUNT:12},Solfa={NONE:-1,D:0,R:1,M:2,F:3,S:4,L:5,T:6,COUNT:7},Octave={NONE:-1,2:0,3:1,4:2,5:3,COUNT:4},Tempo={SLW:0,MED:1,FST:2,XFST:3},SquareWave={P8:0,P4:1,P2:2,COUNT:3},ArpeggioPattern={OFF:0,UP:1,DWN:2,INT5:3,INT8:4};function createWorldData(){return{room:{},tile:{},sprite:{},item:{},dialog:{},end:{},palette:{default:{name:"default",colors:[[0,0,0],[255,255,255],[255,255,255]]}},variable:{},tune:{},blip:{},versionNumberFromComment:-1,fontName:defaultFontName,textDirection:TextDirection.LeftToRight,flags:createDefaultFlags(),names:{},drawings:{}}}function createDrawingData(e,t){var a={type:e,id:t,name:null,drw:("AVA"===e?"SPR":e)+"_"+t,col:"TIL"===e?1:2,bgc:0,animation:{isAnimated:!1,frameIndex:0,frameCount:1}};return"TIL"===e&&(a.isWall=null),"AVA"!==e&&"SPR"!==e||(a.room=null,a.x=-1,a.y=-1,a.inventory={}),"AVA"!==e&&"SPR"!==e&&"ITM"!==e||(a.dlg=null,a.blip=null),a}function createTuneData(e){return{id:e,name:null,melody:[],harmony:[],key:null,tempo:Tempo.MED,instrumentA:SquareWave.P2,instrumentB:SquareWave.P2,arpeggioPattern:ArpeggioPattern.OFF}}function createTuneBarData(){for(var e=[],t=0;t<barLength;t++)e.push({beats:0,note:Note.C,octave:Octave[4]});return e}function createTuneKeyData(){for(var e={notes:[],scale:[]},t=0;t<Solfa.COUNT;t++)e.notes.push(Note.NONE);return e}function createBlipData(e){return{id:e,name:null,pitchA:{beats:0,note:Note.C,octave:Octave[4]},pitchB:{beats:0,note:Note.C,octave:Octave[4]},pitchC:{beats:0,note:Note.C,octave:Octave[4]},envelope:{attack:0,decay:0,sustain:0,length:0,release:0},beat:{time:0,delay:0},instrument:SquareWave.P2,doRepeat:!1}}function createDefaultFlags(){return{VER_MAJ:-1,VER_MIN:-1,ROOM_FORMAT:0,DLG_COMPAT:0,TXT_MODE:0}}function createDialogData(e){return{src:"",name:null,id:e}}function parseWorld(e){bitsy.log("create world data");var t=createWorldData();bitsy.log("init parse state");var a={lines:e.split("\n"),index:0,spriteStartLocations:{}};for(bitsy.log("start reading lines");a.index<a.lines.length;){var r=a.index,n=a.lines[r];0==r?r=parseTitle(a,t):n.length<=0||"#"===n.charAt(0)?(-1!=n.indexOf("# BITSY VERSION ")&&(t.versionNumberFromComment=parseFloat(n.replace("# BITSY VERSION ",""))),r++):"PAL"==getType(n)?r=parsePalette(a,t):"ROOM"===getType(n)||"SET"===getType(n)?r=parseRoom(a,t):"TIL"===getType(n)?r=parseTile(a,t):"SPR"===getType(n)?r=parseSprite(a,t):"ITM"===getType(n)?r=parseItem(a,t):"DLG"===getType(n)?r=parseDialog(a,t):"END"===getType(n)?r=parseEnding(a,t):"VAR"===getType(n)?r=parseVariable(a,t):"DEFAULT_FONT"===getType(n)?r=parseFontName(a,t):"TEXT_DIRECTION"===getType(n)?r=parseTextDirection(a,t):"FONT"===getType(n)?r=parseFontData(a,t):"TUNE"===getType(n)?r=parseTune(a,t):"BLIP"===getType(n)?r=parseBlip(a,t):"!"===getType(n)?r=parseFlag(a,t):r++,a.index=r}if(t.names=createNameMapsForWorld(t),placeSprites(a,t),(t.flags.VER_MAJ<=-1||t.flags.VER_MIN<=-1)&&-1<t.versionNumberFromComment){var i=""+t.versionNumberFromComment;i=i.split("."),t.flags.VER_MAJ=parseFloat(i[0]),t.flags.VER_MIN=parseFloat(i[1])}return t.flags.VER_MAJ<7&&(t.flags.DLG_COMPAT=1),t}function parseTitle(e,t){var a,r=e.index,n=e.lines;return a=scriptUtils?scriptUtils.ReadDialogScript(n,r):{script:n[r],index:r+1},t.dialog[titleDialogId]=createDialogData(titleDialogId),t.dialog[titleDialogId].src=a.script,r=a.index,++r}function parsePalette(e,t){var a=e.index,r=e.lines,n=getId(r[a]);a++;for(var i=[],l=null;a<r.length&&0<r[a].length;){if("NAME"===r[a].split(" ")[0])l=r[a].split(/\s(.+)/)[1];else{var s=[];r[a].split(",").forEach(function(e){s.push(parseInt(e))}),i.push(s)}a++}return t.palette[n]={id:n,name:l,colors:i},a}function createRoomData(e){return{id:e,name:null,tilemap:[],walls:[],exits:[],endings:[],items:[],pal:null,ava:null,tune:"0"}}function parseRoom(e,t){var a=e.index,r=e.lines,n=getId(r[a]),i=createRoomData(n);if(a++,0===t.flags.ROOM_FORMAT)for(var l=a+bitsy.MAP_SIZE,o=0;a<l;a++){for(i.tilemap.push([]),x=0;x<bitsy.MAP_SIZE;x++)i.tilemap[o].push(r[a].charAt(x));o++}else if(1===t.flags.ROOM_FORMAT)for(l=a+bitsy.MAP_SIZE,o=0;a<l;a++){i.tilemap.push([]);var p=r[a].split(",");for(x=0;x<bitsy.MAP_SIZE;x++)i.tilemap[o].push(p[x]);o++}for(;a<r.length&&0<r[a].length;){if("SPR"===getType(r[a])){var g=getId(r[a]);if(-1==g.indexOf(",")&&3<=r[a].split(" ").length){var u=r[a].split(" ")[2].split(",");e.spriteStartLocations[g]={room:n,x:parseInt(u[0]),y:parseInt(u[1])}}else if(0==t.flags.ROOM_FORMAT){var f=g.split(",");for(row in i.tilemap)for(s in f){var c=i.tilemap[row].indexOf(f[s]);-1!=c&&(i.tilemap[row][c]="0",e.spriteStartLocations[f[s]]={room:n,x:parseInt(c),y:parseInt(row)})}}}else if("ITM"===getType(r[a])){var d=getId(r[a]),m=r[a].split(" ")[2].split(","),T={id:d,x:parseInt(m[0]),y:parseInt(m[1])};i.items.push(T)}else if("WAL"===getType(r[a]))i.walls=getId(r[a]).split(",");else if("EXT"===getType(r[a])){for(var v=r[a].split(" "),I=v[1].split(","),A=v[2],y=v[3].split(","),h={x:parseInt(I[0]),y:parseInt(I[1]),dest:{room:A,x:parseInt(y[0]),y:parseInt(y[1])},transition_effect:null,dlg:null},D=4;D<v.length;)"FX"==v[D]?(h.transition_effect=v[D+1],D+=2):"DLG"==v[D]?(h.dlg=v[D+1],D+=2):D+=1;i.exits.push(h)}else if("END"===getType(r[a])){var N=getId(r[a]),S=getCoord(r[a],2);l={id:N,x:parseInt(S[0]),y:parseInt(S[1])};i.endings.push(l)}else"PAL"===getType(r[a])?i.pal=getId(r[a]):"AVA"===getType(r[a])?i.ava=getId(r[a]):"TUNE"===getType(r[a])?i.tune=getId(r[a]):"NAME"===getType(r[a])&&(i.name=getNameArg(r[a]));a++}return t.room[n]=i,a}function parseTile(e,t){var a=e.index,r=e.lines,n=getId(r[a]),i=createDrawingData("TIL",n);for(a=parseDrawingCore(r,++a,i.drw,t),i.animation.frameCount=getDrawingFrameCount(t,i.drw),i.animation.isAnimated=1<i.animation.frameCount;a<r.length&&0<r[a].length;){if("COL"===getType(r[a]))i.col=parseInt(getId(r[a]));else if("BGC"===getType(r[a])){var l=getId(r[a]);i.bgc="*"===l?-1*tileColorStartIndex:parseInt(l)}else if("NAME"===getType(r[a]))i.name=getNameArg(r[a]);else if("WAL"===getType(r[a])){var s=getArg(r[a],1);"true"===s?i.isWall=!0:"false"===s&&(i.isWall=!1)}a++}return t.tile[n]=i,a}function parseSprite(e,t){var a=e.index,r=e.lines,n=getId(r[a]),i=createDrawingData("A"===n?"AVA":"SPR",n);for(a=parseDrawingCore(r,++a,i.drw,t),i.animation.frameCount=getDrawingFrameCount(t,i.drw),i.animation.isAnimated=1<i.animation.frameCount;a<r.length&&0<r[a].length;){if("COL"===getType(r[a]))i.col=parseInt(getId(r[a]));else if("BGC"===getType(r[a])){var l=getId(r[a]);i.bgc="*"===l?-1*tileColorStartIndex:parseInt(l)}else if("POS"===getType(r[a])){var s=r[a].split(" "),o=s[1],p=s[2].split(",");e.spriteStartLocations[n]={room:o,x:parseInt(p[0]),y:parseInt(p[1])}}else if("DLG"===getType(r[a]))i.dlg=getId(r[a]);else if("NAME"===getType(r[a]))i.name=getNameArg(r[a]);else if("ITM"===getType(r[a])){var g=getId(r[a]),u=parseFloat(getArg(r[a],2));i.inventory[g]=u}else if("BLIP"==getType(r[a])){var f=getId(r[a]);i.blip=f}a++}return t.sprite[n]=i,a}function parseItem(e,t){var a=e.index,r=e.lines,n=getId(r[a]),i=createDrawingData("ITM",n);for(a=parseDrawingCore(r,++a,i.drw,t),i.animation.frameCount=getDrawingFrameCount(t,i.drw),i.animation.isAnimated=1<i.animation.frameCount;a<r.length&&0<r[a].length;){if("COL"===getType(r[a]))i.col=parseInt(getArg(r[a],1));else if("BGC"===getType(r[a])){var l=getId(r[a]);i.bgc="*"===l?-1*tileColorStartIndex:parseInt(l)}else if("DLG"===getType(r[a]))i.dlg=getId(r[a]);else if("NAME"===getType(r[a]))i.name=getNameArg(r[a]);else if("BLIP"==getType(r[a])){var s=getId(r[a]);i.blip=s}a++}return t.item[n]=i,a}function parseDrawingCore(e,t,a,r){var n=[];n.push([]);for(var i=0,l=0;l<bitsy.TILE_SIZE;){var s=e[t+l],o=[];for(x=0;x<bitsy.TILE_SIZE;x++)o.push(parseInt(s.charAt(x)));n[i].push(o),++l===bitsy.TILE_SIZE&&null!=e[t+=l]&&">"===e[t].charAt(0)&&(n.push([]),i++,t++,l=0)}return storeDrawingData(r,a,n),t}function parseDialog(e,t){var a=e.index,r=e.lines,n=getId(r[a]);return(a=parseScript(r,a,t.dialog))<r.length&&0<r[a].length&&"NAME"===getType(r[a])&&(t.dialog[n].name=getNameArg(r[a]),a++),a}function parseEnding(e,t){var a=e.index;return parseScript(e.lines,a,t.end)}function parseScript(e,t,a){var r,n=getId(e[t]);return t++,r=scriptUtils?scriptUtils.ReadDialogScript(e,t):{script:e[t],index:t+1},a[n]=createDialogData(n),a[n].src=r.script,t=r.index}function parseVariable(e,t){var a=e.index,r=e.lines,n=getId(r[a]),i=r[++a];return a++,t.variable[n]=i,a}function parseFontName(e,t){var a=e.index,r=e.lines;return t.fontName=getArg(r[a],1),++a}function parseTextDirection(e,t){var a=e.index,r=e.lines;return t.textDirection=getArg(r[a],1),++a}function parseFontData(e,t){var a=e.index,r=e.lines,n=getId(r[a]),i=r[a];for(a++;a<r.length&&""!=r[a];)i+="\n"+r[a],a++;var l=n+fontManager.GetExtension();return fontManager.AddResource(l,i),a}function parseTune(e,t){var a=e.index,r=e.lines,n=getId(r[a]);a++;for(var i=createTuneData(n),l=0;l<maxTuneLength;){for(var s=createTuneBarData(),o=r[a].split(","),p=0;p<barLength;p++){var g={beats:0,note:Note.C,octave:Octave[4]};if(p<o.length){(d=o[p].split("~"))[0];if(g=parsePitch(o[p]),1<d.length){var u=d[1];g.blip=u}}s[p]=g}i.melody.push(s),a++;var f=createTuneBarData(),c=r[a].split(",");for(p=0;p<barLength;p++){g={beats:0,note:Note.C,octave:Octave[4]};if(p<c.length){var d;(d=c[p].split("~"))[0];if(g=parsePitch(c[p]),1<d.length){u=d[1];g.blip=u}}f[p]=g}i.harmony.push(f),">"===r[++a]?(l++,a++):l=maxTuneLength}for(;a<r.length&&0<r[a].length;){if("KEY"===getType(r[a])){i.key=createTuneKeyData();var m=getArg(r[a],1);if(m){m=m.split(",");for(p=0;p<m.length&&p<i.key.notes.length;p++){g=parsePitch(m[p]);i.key.notes[p]=g.note}}var T=getArg(r[a],2);if(T){T=T.split(",");for(p=0;p<T.length;p++){(g=parsePitch(T[p])).note>Solfa.NONE&&g.note<Solfa.COUNT&&i.key.scale.push(g.note)}}}else if("TMP"===getType(r[a])){var v=getId(r[a]);null!=Tempo[v]&&(i.tempo=Tempo[v])}else if("SQR"===getType(r[a])){var I=getArg(r[a],1);null!=SquareWave[I]&&(i.instrumentA=SquareWave[I]);var A=getArg(r[a],2);null!=SquareWave[A]&&(i.instrumentB=SquareWave[A])}else if("ARP"===getType(r[a])){var y=getId(r[a]);null!=ArpeggioPattern[y]&&(i.arpeggioPattern=ArpeggioPattern[y])}else if("NAME"===getType(r[a])){var h=r[a].split(/\s(.+)/)[1];i.name=h}a++}return t.tune[n]=i,a}function parseBlip(e,t){var a=e.index,r=e.lines,n=getId(r[a]);a++;var i=createBlipData(n),l=r[a].split(",");for(1<=l.length&&(i.pitchA=parsePitch(l[0])),2<=l.length&&(i.pitchB=parsePitch(l[1])),3<=l.length&&(i.pitchC=parsePitch(l[2])),a++;a<r.length&&0<r[a].length;){if("ENV"===getType(r[a]))i.envelope.attack=parseInt(getArg(r[a],1)),i.envelope.decay=parseInt(getArg(r[a],2)),i.envelope.sustain=parseInt(getArg(r[a],3)),i.envelope.length=parseInt(getArg(r[a],4)),i.envelope.release=parseInt(getArg(r[a],5));else if("BEAT"===getType(r[a]))i.beat.time=parseInt(getArg(r[a],1)),i.beat.delay=parseInt(getArg(r[a],2));else if("SQR"===getType(r[a])){var s=getArg(r[a],1);null!=SquareWave[s]&&(i.instrument=SquareWave[s])}else if("RPT"===getType(r[a]))1===parseInt(getArg(r[a],1))&&(i.doRepeat=!0);else if("NAME"===getType(r[a])){var o=r[a].split(/\s(.+)/)[1];i.name=o}a++}return t.blip[n]=i,a}function parsePitch(e){var t,a,r={beats:1,note:Note.C,octave:Octave[4]},n="";for(t=0;t<e.length&&-1!="0123456789".indexOf(e[t]);t++)n+=e[t];0<n.length&&(r.beats=parseInt(n));var i="";t<e.length&&(e[t]===e[t].toUpperCase()?(a=Note,i+=e[t],++t<e.length&&"#"===e[t]&&(i+="_SHARP",t++)):(a=Solfa,i+=e[t].toUpperCase(),t++)),null!=a&&null!=a[i]&&(r.note=a[i]);var l="";return t<e.length&&(l+=e[t]),null!=Octave[l]&&(r.octave=Octave[l]),r}function parseFlag(e,t){var a=e.index,r=e.lines,n=getId(r[a]),i=r[a].split(" ")[2];return t.flags[n]=parseInt(i),++a}function getDrawingFrameCount(e,t){return e.drawings[t].length}function storeDrawingData(e,t,a){e.drawings[t]=a}function placeSprites(e,t){for(id in e.spriteStartLocations)t.sprite[id].room=e.spriteStartLocations[id].room,t.sprite[id].x=e.spriteStartLocations[id].x,t.sprite[id].y=e.spriteStartLocations[id].y}function createNameMapsForWorld(e){var t={};function a(e){var t={};for(id in e)null!=e[id].name&&null!=e[id].name&&(t[e[id].name]=id);return t}return t.room=a(e.room),t.tile=a(e.tile),t.sprite=a(e.sprite),t.item=a(e.item),t.dialog=a(e.dialog),t.palette=a(e.palette),t.tune=a(e.tune),t.blip=a(e.blip),t}function getType(e){return getArg(e,0)}function getId(e){return getArg(e,1)}function getCoord(e,t){return getArg(e,t).split(",")}function getArg(e,t){return e.split(" ")[t]}function getNameArg(e){return e.split(/\s(.+)/)[1]}</script><script>function pitchToSteps(e){return e.octave*Note.COUNT+e.note}function stepsToPitch(e){for(var t={beats:1,note:Note.C,octave:Octave[2]};e>=Note.COUNT;)t.octave=(t.octave+1)%Octave.COUNT,e-=Note.COUNT;return t.note+=e,t.note<=Note.NONE?t.note=Note.C:t.note>=Note.COUNT&&(t.note=Note.B),t.octave<=Octave.NONE?t.octave=Octave[2]:t.octave>=Octave.COUNT&&(t.octave=Octave[5]),t}function adjustPitch(e,t){return stepsToPitch(pitchToSteps(e)+t)}function pitchDistance(e,t){return pitchToSteps(t)-pitchToSteps(e)}function isMinPitch(e){return pitchToSteps(e)<=pitchToSteps({note:Note.C,octave:Octave[2]})}function isMaxPitch(e){return pitchToSteps(e)>=pitchToSteps({note:Note.B,octave:Octave[5]})}function SoundPlayer(){var r=[261.7,277.2,293.7,311.2,329.7,349.3,370,392,415.3,440,466.2,493.9],o={};o[Tempo.SLW]=250,o[Tempo.MED]=188,o[Tempo.FST]=125,o[Tempo.XFST]=94;var l={};function u(e,t){return!(e.beats<=0)&&(null==t||-1<t.scale.indexOf(e.note)&&t.notes[e.note]>Note.NONE&&t.notes[e.note]<Note.COUNT)}function c(e,t){if(null==e)return null;if(null==t)return e;var n=e.note>=Solfa.COUNT?1:0;return{beats:e.beats,octave:e.octave+n,note:t.notes[e.note%Solfa.COUNT],blip:e.blip}}function s(e){var t=Math.max(0,e.note),n=null!=e.octave?e.octave:Octave[4],i=Octave[2],o=Octave[5],a=(n=Math.max(i,Math.min(n,o)))-2,l=r[t]*Math.pow(2,a);return isNaN(l)&&bitsy.log("invalid frequency "+e,"sound"),l}l[ArpeggioPattern.UP]=[0,2,4,7],l[ArpeggioPattern.DWN]=[7,4,2,0],l[ArpeggioPattern.INT5]=[0,4],l[ArpeggioPattern.INT8]=[0,7],this.getArpeggioSteps=function(e){return l[e.arpeggioPattern]};var p=5,a=null,t=!1,h=-1,v=[],f=0,b=0,y=0,g=!1,d=!1,N=null,m=0;function O(e,t,n){var i=[];if(null!=t&&null!=t&&u(e[0],t))for(var o=0;o<l[n].length;o++){var a={beats:1,note:e[0].note+l[n][o],octave:e[0].octave};i.push(c(a,t))}for(o=0;o<i.length;o++)bitsy.log(o+": "+serializeNote(i[o].note));return i}function T(e,t,n){if(!(e.beats<=0)){var i=bitsy.SOUND1;null!=n&&null!=n.channel&&(i=n.channel);var o=null;null!=n&&null!=n.key&&(o=n.key);var a=f;if(null!=n&&null!=n.beatLen&&(a=n.beatLen),u(e,o)){var l=s(c(e,o));bitsy.sound(i,e.beats*a,100*l,p,t)}}}function P(e,t){var n=e.blip.beat.delay,i=e.blip.beat.time,o=Math.max(0,t-n)/i,a=e.blip.doRepeat?o%e.frequencies.length:Math.min(o,e.frequencies.length-1);return e.pitchIndex=Math.floor(a),e.frequencies[e.pitchIndex]}function S(e,t){var n=0,i=e.blip.envelope.attack,o=e.blip.envelope.decay,a=e.blip.envelope.length,l=e.blip.envelope.release;if(t<i){var r=t/i;n=Math.floor(M*r)}else if(t<i+o){r=(t-i)/o;var u=e.blip.envelope.sustain-M;n=Math.floor(M+u*r)}else if(t<i+o+a)n=e.blip.envelope.sustain;else if(t<i+o+a+l){r=(t-(i+o+a))/l;n=Math.floor(e.blip.envelope.sustain*(1-r))}else n=0;return n}this.update=function(e){!function(e){e=Math.min(e,32);var t=!1;if(null!=k){t=!0;var n=k;if(n.timer+=e,n.timer>=n.duration&&(n.timer=n.duration),0<n.frequencies.length){var i=n.pitchIndex,o=P(n,n.timer);i!=n.pitchIndex&&bitsy.frequency(bitsy.SOUND1,100*o),bitsy.volume(bitsy.SOUND1,S(n,n.timer))}n.timer>=n.duration&&(bitsy.volume(bitsy.SOUND1,0),k=null)}U&&!t&&(U=!1)}(e),t||U||function(e){if(null!=a&&(0<m&&(m-=e),f<=(b+=e))){if(b=0,16<=++y&&(y=0,g||(h=(h+1)%a.melody.length,a.arpeggioPattern!=ArpeggioPattern.OFF&&null!=a.key&&(v=O(a.harmony[h],a.key,a.arpeggioPattern)))),m<=0){if(!d){var t=a.melody[h][y];0<t.beats&&(k=null),null!=t.blip&&0<t.beats?q(blip[t.blip],{interruptMusic:!1,pitch:t,key:a.key}):T(t,a.instrumentA,{channel:bitsy.SOUND1,key:a.key})}if(a.arpeggioPattern===ArpeggioPattern.OFF){var n=a.harmony[h][y];null!=n.blip&&0<n.beats?q(blip[n.blip],{interruptMusic:!1,pitch:n,key:a.key}):T(n,a.instrumentB,{channel:bitsy.SOUND2,key:a.key})}else{var i=v[y%v.length];null!=i&&0<i.beats&&T(i,a.instrumentB,{channel:bitsy.SOUND2,beatLen:f})}}null!=N&&N-1<=y&&(a=null)}}(e)},this.playTune=function(e,t){a=e,h=b=0,d=g=!(y=-1),(N=null)!=t&&(null!=t.barIndex&&(h=t.barIndex),null!=t.loop&&(g=t.loop),null!=t.melody&&(d=!t.melody),null!=t.beatCount&&(N=t.beatCount)),f=o[a.tempo],a.arpeggioPattern!=ArpeggioPattern.OFF&&null!=a.key&&(v=O(a.harmony[h],a.key,a.arpeggioPattern))},this.stopTune=function(){a=null},this.pauseTune=function(){t=!0},this.resumeTune=function(){t=!1},this.getBeat=function(){return null==a?null:{bar:h,beat:y}},this.getBlipState=function(){return k},this.playNote=function(e,t,n,i){f=o[Tempo.SLW],m=f,T(e,t,{channel:n,key:i})},this.setTempo=function(e){f=o[e]},this.setLooping=function(e){g=e};var M=10,k=null,U=!1;function C(e,t,n){var i={blip:e,pitchIndex:-1,frequencies:[],timer:0,duration:0};i.duration=e.envelope.attack+e.envelope.decay+e.envelope.length+e.envelope.release;var o=0;return null!=t?o=pitchDistance(e.pitchA,t):0<n&&(o=Math.floor(6*Math.random())),0<e.pitchA.beats&&i.frequencies.push(s(adjustPitch(e.pitchA,o))),0<e.pitchB.beats&&i.frequencies.push(s(adjustPitch(e.pitchB,o))),0<e.pitchC.beats&&i.frequencies.push(s(adjustPitch(e.pitchC,o))),i}function q(e,t){U=void 0===t||void 0===t.interruptMusic||t.interruptMusic;var n=bitsy.SOUND1,i=void 0===t||void 0===t.pitch?null:t.pitch,o=void 0!==t&&void 0!==t.isPitchRandomized&&t.isPitchRandomized,a=null!=t&&null!=t.key?t.key:null;k=C(e,c(i,a),o),bitsy.log("play blip: "+k.frequencies),bitsy.sound(n,10*k.duration,0<k.frequencies.length?100*k.frequencies[0]:0,0,k.blip.instrument)}this.playBlip=q,this.isBlipPlaying=function(){return U},this.sampleBlip=function(e,t){for(var n=C(e,null,!1),i=s({note:Note.C,octave:Octave[2]}),o=s({note:Note.B,octave:Octave[5]}),a=[],l=0;l<t;l++)if(0<n.frequencies.length){var r=P(n,c=Math.floor(l/t*n.duration));r/=o-i,a.push(r)}else a.push(0);var u=[];for(l=0;l<t;l++){var c=Math.floor(l/t*n.duration);u.push(S(n,c)/15)}return{frequencies:a,amplitudes:u}}}</script><script>function FontManager(t){var e=this,n=".bitsyfont";this.GetExtension=function(){return n};var r={};if(null!=t&&null!=t&&0<t.length&&null!=Resources&&null!=Resources)for(var i=0;i<t.length;i++){var s=t[i];r[s]=Resources[s]}function a(t){bitsy.log("create font");var h="unknown",l=6,c=8,g={},e={};function p(){return{width:l,height:c,offset:{x:0,y:0},spacing:l,data:[]}}function d(){e=p();for(var t=0;t<c;t++)for(var n=0;n<l;n++)n<l-1&&t<c-1?e.data.push(1):e.data.push(0)}d(),this.getName=function(){return h},this.getData=function(){return g},this.getWidth=function(){return l},this.getHeight=function(){return c},this.hasChar=function(t){var n=t.charCodeAt(0);return null!=g[n]},this.getChar=function(t){var n=t.charCodeAt(0);return null!=g[n]?g[n]:e},this.allCharCodes=function(){var t=[];for(var n in g)t.push(n);return t},bitsy.log("parse font"),function(t){if(null!=t){bitsy.log("split font lines"),bitsy.log("after split lines");for(var n=!1,e=!1,r=0,i=0,s=0,a=-1!=t.indexOf("\n",s)?t.indexOf("\n",s):t.length;s<t.length;){var u=t.substring(s,a);if("#"===u[0]);else if(n){if(e&&(0==(f=u.split(" "))[0].indexOf("CHAR_")?"CHAR_SIZE"==f[0]?(g[i].width=parseInt(f[1]),g[i].height=parseInt(f[2]),g[i].spacing=parseInt(f[1])):"CHAR_OFFSET"==f[0]?(g[i].offset.x=parseInt(f[1]),g[i].offset.y=parseInt(f[2])):"CHAR_SPACING"==f[0]&&(g[i].spacing=parseInt(f[1])):e=!1),!e){for(var o=0;o<g[i].width;o++)g[i].data.push(parseInt(u[o]));c<=++r&&(n=!1)}}else{var f;"FONT"==(f=u.split(" "))[0]?h=f[1]:"SIZE"==f[0]?(l=parseInt(f[1]),c=parseInt(f[2])):"CHAR"==f[0]&&(e=n=!0,r=0,i=parseInt(f[1]),g[i]=p())}s=a+1,a=-1!=t.indexOf("\n",s)?t.indexOf("\n",s):t.length}d()}}(t),bitsy.log("create font")}this.AddResource=function(t,n){r[t]=n},this.ContainsResource=function(t){return null!=r[t]},this.GetData=function(t){return r[t+n]},this.Create=function(t){return new a(t)},this.Get=function(t){var n=e.GetData(t);return e.Create(n)}}</script><script>var TransitionManager=function(){var I=null,P=null,g=!1,E=0,y=0;this.BeginTransition=function(e,t,r,n,i,a,l){bitsy.log("--- START ROOM TRANSITION ---"),m=l;player().room,player().x,player().y;p[m].showPlayerStart?(player().room=e,player().x=t,player().y=r):player().room="_transition_none";var o=d(room[e]),s=getPal(room[e].pal),f=new PostProcessImage(o);I=new TransitionInfo(f,s,t,r),p[m].showPlayerEnd?(player().room=n,player().x=i,player().y=a):player().room="_transition_none";var u=d(room[n]),h=getPal(room[n].pal),c=new PostProcessImage(u);P=new TransitionInfo(c,h,i,a),g=!0,y=E=0,player().room=n,player().x=i,player().y=a,bitsy.graphicsMode(bitsy.GFX_VIDEO)},this.UpdateTransition=function(e){if(g){E+=e;var t=p[m].stepCount;if(125<=E){var r=++y;if(bitsy.log("transition step "+r),p[m].paletteEffectFunc){var n=p[m].paletteEffectFunc(I,P,r/t);updatePaletteWithTileColors(n)}bitsy.fill(bitsy.VIDEO,tileColorStartIndex);for(var i=0;i<bitsy.VIDEO_SIZE;i++)for(var a=0;a<bitsy.VIDEO_SIZE;a++){var l=p[m].pixelEffectFunc(I,P,a,i,r/t);bitsy.set(bitsy.VIDEO,i*bitsy.VIDEO_SIZE+a,l)}E=0}t-1<=y&&(g=!1,y=E=0,(P=I=null)!=o&&o(),o=null,bitsy.graphicsMode(bitsy.GFX_MAP))}},this.IsTransitionActive=function(){return g};var o=null;this.OnTransitionComplete=function(e){g&&(o=e)};var p={},m="none";function e(e,t,r){for(var n=[],i=e.Palette.length>t.Palette.length?e.Palette.length:t.Palette.length,a=0;a<i;a++)a<e.Palette.length&&a<t.Palette.length?n.push(l(e.Palette[a],t.Palette[a],r)):a<e.Palette.length?n.push(l(e.Palette[a],t.Palette[t.Palette.length-1],r)):a<t.Palette.length&&n.push(l(e.Palette[e.Palette.length-1],t.Palette[a],r));return n}function d(e){for(var t=[],r=0;r<bitsy.VIDEO_SIZE*bitsy.VIDEO_SIZE;r++)t.push(tileColorStartIndex);var n=function(e,t,r,n,i,a){for(var l=e[t],o=0;o<bitsy.TILE_SIZE;o++)for(var s=0;s<bitsy.TILE_SIZE;s++){var f=tileColorStartIndex+(1===l[o][s]?r:0);a[(i*bitsy.TILE_SIZE+o)*bitsy.VIDEO_SIZE+(n*bitsy.TILE_SIZE+s)]=f}};for(r in e.tilemap)for(j in e.tilemap[r]){var i=e.tilemap[r][j],a=parseInt(j),l=parseInt(r);"0"!=i&&null!=tile[i]&&n(renderer.GetDrawingSource(tile[i].drw),tile[i].animation.frameIndex,tile[i].col,a,l,t)}for(r=0;r<e.items.length;r++){var o=e.items[r];n(renderer.GetDrawingSource(item[o.id].drw),item[o.id].animation.frameIndex,item[o.id].col,o.x,o.y,t)}for(i in sprite){var s=sprite[i];s.room===e.id&&n(renderer.GetDrawingSource(s.drw),s.animation.frameIndex,s.col,s.x,s.y,t)}return t}function l(e,t,r){return[e[0]+(t[0]-e[0])*r,e[1]+(t[1]-e[1])*r,e[2]+(t[2]-e[2])*r]}this.RegisterTransitionEffect=function(e,t){p[e]=t},this.RegisterTransitionEffect("none",{showPlayerStart:!1,showPlayerEnd:!1,paletteEffectFunc:function(){},pixelEffectFunc:function(){}}),this.RegisterTransitionEffect("fade_w",{showPlayerStart:!1,showPlayerEnd:!0,stepCount:6,pixelEffectFunc:function(e,t,r,n,i){return i<.5?e.Image.GetPixel(r,n):t.Image.GetPixel(r,n)},paletteEffectFunc:function(e,t,r){var n=[];if(r<.5){r/=.5;for(var i=0;i<e.Palette.length;i++)n.push(l(e.Palette[i],[255,255,255],r))}else{r=(r-.5)/.5;for(i=0;i<t.Palette.length;i++)n.push(l([255,255,255],t.Palette[i],r))}return n}}),this.RegisterTransitionEffect("fade_b",{showPlayerStart:!1,showPlayerEnd:!0,stepCount:6,pixelEffectFunc:function(e,t,r,n,i){return i<.5?e.Image.GetPixel(r,n):t.Image.GetPixel(r,n)},paletteEffectFunc:function(e,t,r){var n=[];if(r<.5){r/=.5;for(var i=0;i<e.Palette.length;i++)n.push(l(e.Palette[i],[0,0,0],r))}else{r=(r-.5)/.5;for(i=0;i<t.Palette.length;i++)n.push(l([0,0,0],t.Palette[i],r))}return n}}),this.RegisterTransitionEffect("wave",{showPlayerStart:!0,showPlayerEnd:!0,stepCount:12,pixelEffectFunc:function(e,t,r,n,i){var a=i<.5?i/.5:1-(i-.5)/.5,l=n+a*a*.2*e.Image.Height,o=2+14*a;return(r+=Math.floor(Math.sin(l/4)*o))<0?r+=e.Image.Width:r>=e.Image.Width&&(r-=e.Image.Width),(i<.5?e.Image:t.Image).GetPixel(r,n)},paletteEffectFunc:function(e,t,r){return r<.5?e.Palette:t.Palette}}),this.RegisterTransitionEffect("tunnel",{showPlayerStart:!0,showPlayerEnd:!0,stepCount:12,pixelEffectFunc:function(e,t,r,n,i){if(i<=.4){var a=1-i/.4,l=e.PlayerCenter.x-r,o=e.PlayerCenter.y-n;return Math.sqrt(l*l+o*o)>e.Image.Width*a?0:e.Image.GetPixel(r,n)}if(i<=.6)return 0;a=(i-.6)/.4,l=t.PlayerCenter.x-r,o=t.PlayerCenter.y-n;return Math.sqrt(l*l+o*o)>t.Image.Width*a?0:t.Image.GetPixel(r,n)},paletteEffectFunc:function(e,t,r){return r<.5?e.Palette:t.Palette}}),this.RegisterTransitionEffect("slide_u",{showPlayerStart:!1,showPlayerEnd:!0,stepCount:8,pixelEffectFunc:function(e,t,r,n,i){var a=n+-1*Math.floor(e.Image.Height*i);return 0<=a?e.Image.GetPixel(r,a):(a+=e.Image.Height,t.Image.GetPixel(r,a))},paletteEffectFunc:e}),this.RegisterTransitionEffect("slide_d",{showPlayerStart:!1,showPlayerEnd:!0,stepCount:8,pixelEffectFunc:function(e,t,r,n,i){var a=n+Math.floor(e.Image.Height*i);return a<e.Image.Height?e.Image.GetPixel(r,a):(a-=e.Image.Height,t.Image.GetPixel(r,a))},paletteEffectFunc:e}),this.RegisterTransitionEffect("slide_l",{showPlayerStart:!1,showPlayerEnd:!0,stepCount:8,pixelEffectFunc:function(e,t,r,n,i){var a=r+-1*Math.floor(e.Image.Width*i);return 0<=a?e.Image.GetPixel(a,n):(a+=e.Image.Width,t.Image.GetPixel(a,n))},paletteEffectFunc:e}),this.RegisterTransitionEffect("slide_r",{showPlayerStart:!1,showPlayerEnd:!0,stepCount:8,pixelEffectFunc:function(e,t,r,n,i){var a=r+Math.floor(e.Image.Width*i);return a<e.Image.Width?e.Image.GetPixel(a,n):(a-=e.Image.Width,t.Image.GetPixel(a,n))},paletteEffectFunc:e})},PostProcessImage=function(r){this.Width=bitsy.VIDEO_SIZE,this.Height=bitsy.VIDEO_SIZE,this.GetPixel=function(e,t){return r[t*bitsy.VIDEO_SIZE+e]},this.GetData=function(){return r}},TransitionInfo=function(e,t,r,n){this.Image=e,this.Palette=t,this.PlayerTilePos={x:r,y:n},this.PlayerCenter={x:Math.floor(r*bitsy.TILE_SIZE+bitsy.TILE_SIZE/2),y:Math.floor(n*bitsy.TILE_SIZE+bitsy.TILE_SIZE/2)}}</script><script>function Script(){this.CreateInterpreter=function(){return new n},this.CreateUtils=function(){return new t};var n=function(){var r=new e,l=new sn(r);function a(n,t){null!=t&&t(n)}function t(n){var t={Visit:function(n,t){bitsy.log("-".repeat(t)+"- "+n.ToString())}};n.VisitAll(t)}this.SetDialogBuffer=function(n){r.SetDialogBuffer(n)},this.Compile=function(n,t){var e=l.Parse(t,n);r.SetScript(n,e)},this.Run=function(n,t,e){var i=new j(r);e&&i.SetObject(e),r.GetScript(n).Eval(i,function(n){a(i,t)})},this.Interpret=function(n,t,e){var i=new j(r);e&&i.SetObject(e),l.Parse(n,"anonymous").Eval(i,function(n){a(i,t)})},this.HasScript=function(n){return r.HasScript(n)},this.ResetEnvironment=function(){r=new e,l=new sn(r)},this.Parse=function(n,t){return l.Parse(n,t)},this.Eval=function(n,t){var e=new j(r);n.Eval(e,function(n){a(n,t)})},this.CreateExpression=function(n){return l.CreateExpression(n)},this.SetVariable=function(n,t,e){r.SetVariable(n,t,e)},this.DeleteVariable=function(n,t){r.DeleteVariable(n,t)},this.HasVariable=function(n){return r.HasVariable(n)},this.SetOnVariableChangeHandler=function(n){r.SetOnVariableChangeHandler(n)},this.GetVariableNames=function(){return r.GetVariableNames()},this.GetVariable=function(n){return r.GetVariable(n)},this.DebugVisualizeScriptTree=t,this.DebugVisualizeScript=function(n){t(r.GetScript(n))}},t=function(){this.CreateDialogBlock=function(n,t){void 0===t&&(t=!0);for(var e=new U(t),i=0;i<n.length;i++)e.AddChild(n[i]);return e},this.CreateOptionBlock=function(){var n=new U(!1);return n.AddChild(new K("say",[new Q(" ")])),n},this.CreateItemConditionPair=function(){var n=new X("==",this.CreateFunctionBlock("item",["0"]),new Q(1)),t=new U(!0);return t.AddChild(new K("say",[new Q(" ")])),new an(n,t)},this.CreateVariableConditionPair=function(){var n=new X("==",this.CreateVariableNode("a"),new Q(1)),t=new U(!0);return t.AddChild(new K("say",[new Q(" ")])),new an(n,t)},this.CreateDefaultConditionPair=function(){var n=this.CreateElseNode(),t=new U(!0);return t.AddChild(new K("say",[new Q(" ")])),new an(n,t)},this.CreateEmptySayFunc=function(){return new K("say",[new Q("...")])},this.CreateFunctionBlock=function(n,t){for(var e=[],i=0;i<t.length;i++)e.push(new Q(t[i]));var r=new K(n,e),l=new $;return l.AddChild(r),l},this.CreateLiteralNode=function(n){return"true"===n?new Q(!0):"false"===n?new Q(!1):isNaN(parseFloat(n))?new Q(n):new Q(parseFloat(n))},this.CreateVariableNode=function(n){return new W(n)},this.CreatePropertyNode=function(n,t){var e=new K("property",[new W(n),new Q(t)]),i=new $;return i.AddChild(e),i},this.CreateElseNode=function(){return new on},this.CreateStringLiteralNode=function(n){return new Q(n)},this.CreateCodeBlock=function(){return new $},this.ChangeSequenceType=function(n,t){return"sequence"===t?new tn(n.children):"cycle"===t?new en(n.children):"shuffle"===t?new rn(n.children):n},this.CreateSequenceBlock=function(){var n=new U(!1);n.AddChild(new K("say",[new Q("...")]));var t=new U(!1);t.AddChild(new K("say",[new Q("...")]));var e=new tn([n,t]),i=new $;return i.AddChild(e),i},this.CreateCycleBlock=function(){var n=new U(!1);n.AddChild(new K("say",[new Q("...")]));var t=new U(!1);t.AddChild(new K("say",[new Q("...")]));var e=new en([n,t]),i=new $;return i.AddChild(e),i},this.CreateShuffleBlock=function(){var n=new U(!1);n.AddChild(new K("say",[new Q("...")]));var t=new U(!1);t.AddChild(new K("say",[new Q("...")]));var e=new rn([n,t]),i=new $;return i.AddChild(e),i},this.CreateIfBlock=function(){var n=new $;n.AddChild(new K("item",[new Q("0")]));var t=new X("==",n,new Q(1)),e=new on,i=new U;i.AddChild(new K("say",[new Q("...")]));var r=new U;r.AddChild(new K("say",[new Q("...")]));var l=new ln([t,e],[i,r]),a=new $;return a.AddChild(l),a},this.ReadDialogScript=function(n,t){var e="";if(n[t]===un.DialogOpen){for(e+=n[t]+"\n",t++;n[t]!=un.DialogClose;)e+=n[t]+"\n",t++;e+=n[t],t++}else e+=n[t],t++;return{script:e,index:t}},this.EnsureDialogBlockFormat=function(n){return-1<n.indexOf("\n")&&(n=un.DialogOpen+"\n"+n+"\n"+un.DialogClose),n},this.RemoveDialogBlockFormat=function(n){var t=n.split("\n"),e="";if(t[0]===un.DialogOpen)for(var i=1;i<t.length&&t[i]!=un.DialogClose;)e+=t[i]+(t[i+1]!=un.DialogClose?"\n":""),i++;else e=n;return e},this.SerializeDialogNodeList=function(n){var t=new U(!1);return t.children=n,t.Serialize()},this.GetOperatorList=function(){return[un.Set].concat(un.Operators)},this.IsInlineCode=function(n){return function(n){return function(n){if("code_block"===n.type&&0<n.children.length&&"function"===n.children[0].type){var t=n.children[0];return-1!=a.indexOf(t.name)}return!1}(n)||function(n){return"code_block"===n.type&&0<n.children.length&&"undefined"===n.children[0].type}(n)||Y(n)}(n)}};function o(n,t,e){if(null!=t[0]&&null!=t[0]){var i=""+t[0];n.GetDialogBuffer().AddText(i),n.GetDialogBuffer().AddScriptReturn(function(){e(null)})}else e(null)}function u(n,t,e){n.GetDialogBuffer().AddLinebreak(),n.GetDialogBuffer().AddScriptReturn(function(){e(null)})}function s(n,t,e){n.GetDialogBuffer().AddPagebreak(function(){e(null)})}function r(n,t,e){var i=t[0];n.GetDialogBuffer().AddDrawing(i),n.GetDialogBuffer().AddScriptReturn(function(){e(null)})}function h(n,t,e){var i=t[0];null!=names.sprite[i]&&(i=names.sprite[i]),r(n,[sprite[i].drw],e)}function c(n,t,e){var i=t[0];null!=names.tile[i]&&(i=names.tile[i]),r(n,[tile[i].drw],e)}function f(n,t,e){var i=t[0];null!=names.item[i]&&(i=names.item[i]),r(n,[item[i].drw],e)}function d(n,t,e){for(var i="",r=fontManager.Get(fontName).allCharCodes(),l=0;l<r.length;l++)i+=String.fromCharCode(r[l])+" ";o(n,[i],e)}function v(n,t,e){var i=t[0];null!=names.item[i]&&(i=names.item[i]);var r=player().inventory[i]?player().inventory[i]:0;1<t.length&&(player().inventory[i]=Math.max(0,parseInt(t[1])),r=player().inventory[i],null!=onInventoryChanged&&onInventoryChanged(i)),e(r)}function i(n,t){n.GetDialogBuffer().hasTextEffect(t)?n.GetDialogBuffer().popTextEffect(t):n.GetDialogBuffer().pushTextEffect(t,[])}function p(n,t,e){i(n,"clr1"),e(null)}function g(n,t,e){i(n,"clr2"),e(null)}function w(n,t,e){i(n,"clr3"),e(null)}function C(n,t,e){n.GetDialogBuffer().pushTextEffect("clr",t),e(null)}function y(n,t,e){n.GetDialogBuffer().hasTextEffect("clr")&&n.GetDialogBuffer().popTextEffect("clr"),e(null)}function S(n,t,e){i(n,"rbw"),e(null)}function E(n,t,e){n.GetDialogBuffer().hasTextEffect("rbw")&&n.GetDialogBuffer().popTextEffect("rbw"),e(null)}function b(n,t,e){i(n,"wvy"),e(null)}function m(n,t,e){n.GetDialogBuffer().hasTextEffect("wvy")&&n.GetDialogBuffer().popTextEffect("wvy"),e(null)}function A(n,t,e){i(n,"shk"),e(null)}function k(n,t,e){n.GetDialogBuffer().hasTextEffect("shk")&&n.GetDialogBuffer().popTextEffect("shk"),e(null)}function O(n,t,e){var i=null;if(0<t.length&&t[0]){var r=t[0];if(n.HasProperty(r)){if(1<t.length){var l=t[1];n.SetProperty(r,l)}i=n.GetProperty(r)}}bitsy.log("PROPERTY! "+r+" "+i),e(i)}function D(n,t,e){isEnding=!0,isNarrating=!0,dialogRenderer.SetCentered(!0),e(null)}function G(n,t,e){var i,r,l;if(1<=t.length&&(i=t[0],null!=names.room[i]&&(i=names.room[i])),3<=t.length&&(r=parseInt(t[1]),l=parseInt(t[2])),4<=t.length){var a=t[3];transition.BeginTransition(player().room,player().x,player().y,i,r,l,a),transition.UpdateTransition(0)}var o=function(){null!=i&&null!=r&&null!=l&&(player().room=i,player().x=r,player().y=l,state.room=i,initRoom(state.room)),e(state.room)};transition.IsTransitionActive()?transition.OnTransitionComplete(o):o()}function V(n,t,e){if(0<t.length){var i=t[0];null!=names.tune[i]&&(i=names.tune[i]),soundPlayer&&("0"===i?soundPlayer.stopTune():state.tune!=i&&soundPlayer.playTune(tune[i])),state.tune=i}e(state.tune)}function B(n,t,e){if(0<t.length){var i=t[0];null!=names.blip[i]&&(i=names.blip[i]),soundPlayer.playBlip(blip[i])}dialogBuffer&&dialogBuffer.tryInterruptSkip()&&dialogRenderer.Draw(dialogBuffer,0,!0),e(null)}function I(n,t,e){if(0<t.length){var i=t[0];null!=names.palette[i]&&(i=names.palette[i]),updatePalette(i)}e(state.pal)}function x(n,t,e){if(0<t.length){var i=t[0];null!=names.sprite[i]&&(i=names.sprite[i]),state.ava=i,drawRoom(room[state.room],{redrawAvatar:!0})}e(state.ava)}function N(t,e,n,i){"variable"==e.type?n.Eval(t,function(n){t.SetVariable(e.name,n),e.Eval(t,function(n){i(n)})}):i(null)}function P(n,e,t,i){t.Eval(n,function(t){e.Eval(n,function(n){i(n===t)})})}function T(n,e,t,i){t.Eval(n,function(t){e.Eval(n,function(n){i(t<n)})})}function z(n,e,t,i){t.Eval(n,function(t){e.Eval(n,function(n){i(n<t)})})}function L(n,e,t,i){t.Eval(n,function(t){e.Eval(n,function(n){i(t<=n)})})}function _(n,e,t,i){t.Eval(n,function(t){e.Eval(n,function(n){i(n<=t)})})}function H(n,e,t,i){t.Eval(n,function(t){e.Eval(n,function(n){i(n*t)})})}function F(n,e,t,i){t.Eval(n,function(t){e.Eval(n,function(n){i(n/t)})})}function R(n,e,t,i){t.Eval(n,function(t){e.Eval(n,function(n){i(n+t)})})}function M(n,e,t,i){t.Eval(n,function(t){e.Eval(n,function(n){i(n-t)})})}var e=function(){var t=null;this.SetDialogBuffer=function(n){t=n},this.GetDialogBuffer=function(){return t};var r={};r.say=o,r.br=u,r.pg=s,r.wvy=b,r["/wvy"]=m,r.shk=A,r["/shk"]=k,r.rbw=S,r["/rbw"]=E,r.clr=C,r["/clr"]=y,r.drwt=c,r.drws=h,r.drwi=f,r.end=D,r.exit=G,r.pal=I,r.ava=x,r.item=v,r.property=O,r.tune=V,r.blip=B,r.clr1=p,r.clr2=g,r.clr3=w,r.print=o,r.printTile=c,r.printSprite=h,r.printItem=f,r._debugOnlyPrintFont=d,this.HasFunction=function(n){return null!=r[n]},this.EvalFunction=function(n,t,e,i){null!=i&&null!=i||(i=this),r[n](i,t,e)};var i={};this.HasVariable=function(n){return null!=i[n]},this.GetVariable=function(n){return i[n]},this.SetVariable=function(n,t,e){void 0===e&&(e=!0),i[n]=t,null!=a&&e&&a(n)},this.DeleteVariable=function(n,t){void 0===t&&(t=!0),null!=i[n]&&(i.delete(n),null!=a&&t&&a(n))};var l={};l["="]=N,l["=="]=P,l[">"]=T,l["<"]=z,l[">="]=L,l["<="]=_,l["*"]=H,l["/"]=F,l["+"]=R,l["-"]=M,this.HasOperator=function(n){return null!=l[n]},this.EvalOperator=function(n,t,e,i){l[n](this,t,e,i)};var e={};this.HasScript=function(n){return null!=e[n]},this.GetScript=function(n){return e[n]},this.SetScript=function(n,t){e[n]=t};var a=null;this.SetOnVariableChangeHandler=function(n){a=n},this.GetVariableNames=function(){var n=[];for(var t in i)n.push(t);return n}},j=function(l){this.GetDialogBuffer=function(){return l.GetDialogBuffer()},this.HasFunction=function(n){return l.HasFunction(n)},this.EvalFunction=function(n,t,e,i){null!=i&&null!=i||(i=this),l.EvalFunction(n,t,e,i)},this.HasVariable=function(n){return l.HasVariable(n)},this.GetVariable=function(n){return l.GetVariable(n)},this.SetVariable=function(n,t,e){l.SetVariable(n,t,e)},this.HasOperator=function(n){return l.HasOperator(n)},this.EvalOperator=function(n,t,e,i,r){null!=r&&null!=r||(r=this),l.EvalOperator(n,t,e,i,r)};var e=null;this.HasObject=function(){return null!=e&&null!=e},this.SetObject=function(n){e=n},this.GetObject=function(){return e},this.HasProperty=function(n){return!!(e&&e.property&&e.property.hasOwnProperty(n))},this.GetProperty=function(n){return e&&e.property&&e.property.hasOwnProperty(n)?e.property[n]:null},this.SetProperty=function(n,t){e&&e.property&&e.property.hasOwnProperty(n)&&(e.property[n]=t)}};function q(n){for(var t="",e=0;e<n;e++)t+="  ";return t}var l=function(){this.parent=null,this.children=[],this.AddChild=function(n){this.children.push(n),n.parent=this},this.AddChildren=function(n){for(var t=0;t<n.length;t++)this.AddChild(n[t])},this.SetChildren=function(n){this.children=[],this.AddChildren(n)},this.VisitAll=function(n,t){null!=t&&null!=t||(t=0),n.Visit(this,t);for(var e=0;e<this.children.length;e++)this.children[e].VisitAll(n,t+1)},this.rootId=null,this.GetId=function(){if(null!=this.rootId)return this.rootId;if(null==this.parent)return null;var n=this.parent.GetId();return null!=n?n+"_"+this.parent.children.indexOf(this):void 0}};function U(o){l.call(this),this.type="dialog_block",this.Eval=function(n,t){isPlayerEmbeddedInEditor&&null!=events&&null!=events&&events.Raise("script_node_enter",{id:this.GetId()});var r=null,l=0;var e=this;!function t(e,i){l<e.length?e[l].Eval(n,function(n){r=n,l++,t(e,i)}):i()}(this.children,function(){isPlayerEmbeddedInEditor&&null!=events&&null!=events&&events.Raise("script_node_exit",{id:e.GetId()}),t(r)})},void 0===o&&(o=!0),this.Serialize=function(n){void 0===n&&(n=0);for(var t="",e=null,i=0;i<this.children.length;i++){var r=this.children[i],l=0==i&&o,a=e&&"function"===e.type&&"br"===e.name;(l||a)&&(t+=q(n)),t+=r.Serialize(n),e=r}return t},this.ToString=function(){return this.type+" "+this.GetId()}}function $(){l.call(this),this.type="code_block",this.Eval=function(n,t){isPlayerEmbeddedInEditor&&null!=events&&null!=events&&events.Raise("script_node_enter",{id:this.GetId()});var r=null,l=0;var e=this;!function t(e,i){l<e.length?e[l].Eval(n,function(n){r=n,l++,t(e,i)}):i()}(this.children,function(){isPlayerEmbeddedInEditor&&null!=events&&null!=events&&events.Raise("script_node_exit",{id:e.GetId()}),t(r)})},this.Serialize=function(n){void 0===n&&(n=0);for(var t="{",e=0;e<this.children.length;e++){t+=this.children[e].Serialize(n)}return t+="}"},this.ToString=function(){return this.type+" "+this.GetId()}}var a=["clr1","clr2","clr3","wvy","shk","rbw","printSprite","printItem","printTile","print","say","br"];var Z=["sequence","cycle","shuffle","if"];function Y(n){if("code_block"===n.type&&0<n.children.length){var t=n.children[0];return-1!=Z.indexOf(t.type)}return!1}function J(e){l.call(this),this.type="undefined",this.source=e,this.Eval=function(n,t){i(n,"_debug_highlight"),o(n,["{"+e+"}"],function(){t(null)}),i(n,"_debug_highlight")},this.Serialize=function(n){return this.source},this.ToString=function(){return"undefined "+this.GetId()}}function K(n,t){l.call(this),this.type="function",this.name=n,this.args=t,this.Eval=function(n,t){isPlayerEmbeddedInEditor&&null!=events&&null!=events&&events.Raise("script_node_enter",{id:this.GetId()});var r=this,l=[],a=0;!function t(e,i){"property"===r.name&&0===a&&a<e.length&&("variable"===e[a].type?(l.push(e[a].name),a++):a=e.length),a<e.length?e[a].Eval(n,function(n){l.push(n),a++,t(e,i)}):i()}(this.args,function(){isPlayerEmbeddedInEditor&&null!=events&&null!=events&&events.Raise("script_node_exit",{id:r.GetId()}),n.EvalFunction(r.name,l,t)})},this.Serialize=function(n){var t="dialog_block"===this.parent.type;if(t&&"say"===this.name)return this.args[0].value;if(t&&"br"===this.name)return"\n";var e="";e+=this.name;for(var i=0;i<this.args.length;i++)e+=" ",e+=this.args[i].Serialize(n);return e},this.ToString=function(){return this.type+" "+this.name+" "+this.GetId()}}function Q(n){l.call(this),this.type="literal",this.value=n,this.Eval=function(n,t){t(this.value)},this.Serialize=function(n){var t="";return null===this.value||("string"==typeof this.value&&(t+='"'),t+=this.value,"string"==typeof this.value&&(t+='"')),t},this.ToString=function(){return this.type+" "+this.value+" "+this.GetId()}}function W(n){l.call(this),this.type="variable",this.name=n,this.Eval=function(n,t){n.HasVariable(this.name)?t(n.GetVariable(this.name)):t(null)},this.Serialize=function(n){return""+this.name},this.ToString=function(){return this.type+" "+this.name+" "+this.GetId()}}function X(n,t,e){l.call(this),this.type="operator",this.operator=n,this.left=t,this.right=e,this.Eval=function(n,t){n.EvalOperator(this.operator,this.left,this.right,function(n){t(n)})},this.Serialize=function(n){if("-"===this.operator&&"literal"===this.left.type&&null===this.left.value)return this.operator+this.right.Serialize(n);var t="";return null!=this.left&&null!=this.left&&(t+=this.left.Serialize(n)+" "),t+=this.operator,null!=this.right&&null!=this.right&&(t+=" "+this.right.Serialize(n)),t},this.VisitAll=function(n,t){null!=t&&null!=t||(t=0),n.Visit(this,t),null!=this.left&&this.left.VisitAll(n,t+1),null!=this.right&&this.right.VisitAll(n,t+1)},this.ToString=function(){return this.type+" "+this.operator+" "+this.GetId()}}function nn(){l.call(this),this.Serialize=function(n){var t="";t+=this.type+"\n";for(var e=0;e<this.children.length;e++)t+=q(n+1)+un.List+" ",t+=this.children[e].Serialize(n+2),t+="\n";return t+=q(n)},this.VisitAll=function(n,t){null!=t&&null!=t||(t=0),n.Visit(this,t);for(var e=0;e<this.children.length;e++)this.children[e].VisitAll(n,t+1)},this.ToString=function(){return this.type+" "+this.GetId()}}function tn(n){nn.call(this),this.type="sequence",this.AddChildren(n);var i=0;this.Eval=function(n,t){this.children[i].Eval(n,t);var e=i+1;e<this.children.length&&(i=e)}}function en(n){nn.call(this),this.type="cycle",this.AddChildren(n);var i=0;this.Eval=function(n,t){this.children[i].Eval(n,t);var e=i+1;i=e<this.children.length?e:0}}function rn(n){nn.call(this),this.type="shuffle",this.AddChildren(n);var i=[];function e(n){i=[];for(var t=n.slice();0<t.length;){var e=Math.floor(Math.random()*t.length);i.push(t.splice(e,1)[0])}}e(this.children);var r=0;this.Eval=function(n,t){i[r].Eval(n,t),++r>=this.children.length&&(e(this.children),r=0)}}function ln(n,t,i){l.call(this),this.type="if";for(var e=0;e<n.length;e++)this.AddChild(new an(n[e],t[e]));var r=this;this.Eval=function(n,e){var i=0;!function t(){r.children[i].Eval(n,function(n){1==n.conditionValue?e(n.resultValue):i+1<r.children.length?(i++,t()):e(null)})}()},void 0===i&&(i=!1),this.Serialize=function(n){var t="";if(i)t+=this.children[0].children[0].Serialize()+" ? "+this.children[0].children[1].Serialize(),1<this.children.length&&this.children[1].children[0].type===un.Else&&(t+=" "+un.ElseExp+" "+this.children[1].children[1].Serialize());else{t+="\n";for(var e=0;e<this.children.length;e++)t+=this.children[e].Serialize(n);t+=q(n)}return t},this.IsSingleLine=function(){return i},this.VisitAll=function(n,t){null!=t&&null!=t||(t=0),n.Visit(this,t);for(var e=0;e<this.children.length;e++)this.children[e].VisitAll(n,t+1)},this.ToString=function(){return this.type+" "+this.mode+" "+this.GetId()}}function an(n,t){l.call(this),this.type="condition_pair",this.AddChild(n),this.AddChild(t);var i=this;this.Eval=function(t,e){i.children[0].Eval(t,function(n){n?i.children[1].Eval(t,function(n){e({conditionValue:!0,resultValue:n})}):e({conditionValue:!1})})},this.Serialize=function(n){var t="";return t+=q(n+1),t+=un.List+" "+this.children[0].Serialize(n)+" "+un.ConditionEnd+un.Linebreak,t+=this.children[1].Serialize(n+2)+un.Linebreak},this.VisitAll=function(n,t){null!=t&&null!=t||(t=0),n.Visit(this,t);for(var e=0;e<this.children.length;e++)this.children[e].VisitAll(n,t+1)},this.ToString=function(){return this.type+" "+this.GetId()}}function on(){l.call(this),this.type=un.Else,this.Eval=function(n,t){t(!0)},this.Serialize=function(){return un.Else},this.ToString=function(){return this.type+" "+this.mode+" "+this.GetId()}}var un={DialogOpen:'"""',DialogClose:'"""',CodeOpen:"{",CodeClose:"}",Linebreak:"\n",Separator:":",List:"-",String:'"',ConditionEnd:"?",Else:"else",ElseExp:":",Set:"=",Operators:["==",">=","<=",">","<","-","+","/","*"]},sn=function(n){var r=n;this.Parse=function(n,t){var e=new U;e.rootId=t;var i=new g(e,n);if(i.MatchAhead(un.DialogOpen)){var r=i.ConsumeBlock(un.DialogOpen+un.Linebreak,un.Linebreak+un.DialogClose);(e=new U).rootId=t,i=w(i=new g(e,r))}else i=w(i);return i.rootNode};var g=function(n,t){this.rootNode=n,this.curNode=this.rootNode;var l=t,a=0;this.Index=function(){return a},this.Count=function(){return l.length},this.Done=function(){return a>=l.length},this.Char=function(){return l[a]},this.Step=function(n){void 0===n&&(n=1),a+=n},this.MatchAhead=function(n){n=""+n;for(var t=0;t<n.length;t++){if(a+t>=l.length)return!1;if(n[t]!=l[a+t])return!1}return!0},this.Peak=function(n){for(var t="",e=a;e<l.length&&-1==n.indexOf(l[e]);)t+=l[e],e++;return t},this.ConsumeBlock=function(n,t,e){null==e&&(e=!1);var i=a,r=0;for(this.MatchAhead(n)&&(r++,this.Step(n.length));0<r&&!this.Done();)this.MatchAhead(t)?(r--,this.Step(t.length)):this.MatchAhead(n)?(r++,this.Step(n.length)):this.Step();return e?l.slice(i,a):l.slice(i+n.length,a-t.length)},this.Print=function(){bitsy.log(l)},this.Source=function(){return l}};function w(t){for(var n,e,i,r=[],l="",a=!0,o=!1,u=!1,s=function(){u=o||a,a=!(o=!1),l="",r=[]},h=function(){if(0<l.length){var n=new K("say",[new Q(l)]);r.push(n),l="",o=!(a=!1)}},c=function(){if(u){var n=new K("br",[]);r.unshift(n)}},f=function(){for(var n=0;n<r.length;n++)t.curNode.AddChild(r[n])};!t.Done();)t.MatchAhead(un.CodeOpen)?(h(),e=void 0,n=t.ConsumeBlock(un.CodeOpen,un.CodeClose),e=new g(new $,n),i=(e=d(e)).rootNode,r.push(i),a=!1,Y(i)&&(o=!0)):(t.MatchAhead(un.Linebreak)?(h(),c(),f(),s()):l+=t.Char(),t.Step());return h(),c(),f(),t}function C(n){return/^[a-zA-Z_$][a-zA-Z_$0-9]*$/.test(n)}function y(n){if(n[0]===un.CodeOpen){var t=new g(null,n).ConsumeBlock(un.CodeOpen,un.CodeClose),e=new g(new $,t);return(e=d(e)).rootNode}if(n[0]!==un.String)return"true"===n?new Q(!0):"false"===n?new Q(!1):isNaN(parseFloat(n))?C(n)?new W(n):new Q(null):new Q(parseFloat(n));for(var i="",r=1;r<n.length&&n[r]!=un.String;)i+=n[r],r++;return new Q(i)}function S(i){function n(n){for(var t=!1,e=0;e<i.length;e++)if(i[e]===un.String&&(t=!t),n===e)return t;return!1}function t(n){for(var t=0,e=0;e<i.length;e++)if(i[e]===un.CodeOpen?t++:i[e]===un.CodeClose&&t--,n===e)return 0<t;return!1}var e=null,r=(i=i.trim()).indexOf(un.Set);if(-1<r&&!n(r)&&!t(r)&&"="!=i[r+1]&&">"!=i[r-1]&&"<"!=i[r-1]){e=un.Set;var l=i.substring(0,r).trim();return new X(e,C(l)?new W(l):new Q(null),S(i.substring(r+un.Set.length)))}var a=i.indexOf(un.ConditionEnd);if(-1<a&&!n(a)&&!t(a)){e=un.ConditionEnd;var o=[S(i.substring(0,a).trim())],u=i.substring(a+un.ConditionEnd.length),s=[];function h(n){var t=new g(new U,n),e=(t=w(t)).rootNode;s.push(e)}var c=u.indexOf(un.ElseExp);if(-1<c){o.push(new on);var f=u.substring(c+un.ElseExp.length);h((u=u.substring(0,c)).trim()),h(f.trim())}else h(u.trim());return new ln(o,s,!0)}for(var d=0;null==e&&d<un.Operators.length;d++){var v=un.Operators[d],p=i.indexOf(v);if(-1<p&&!n(p)&&!t(p))return new X(e=v,S(i.substring(0,p)),S(i.substring(p+v.length)))}if(null==e)return y(i)}function d(n){if(function(n){for(var t,e=n.Peak([un.List]),i=e<n.Source().length,r=!0,l=0;l<e.length;l++)" "!==(t=e[l])&&"\t"!==t&&"\n"!==t&&(r=!1);var a=n.Peak([un.ConditionEnd]),o=-1==(a=a.slice(e.length)).indexOf(un.Linebreak);return i&&r&&o}(n))n=function(n){var t=[],e=[],i=-1,r=-1;function l(n){for(var t="",e=0,i=!1,r=!1,l=!1;!n.Done()&&n.Char()!==un.Linebreak;)r||(" "===n.Char()||"\t"===n.Char()?e++:(r=!0,n.Char()===un.List&&(i=!0,e+=2))),i&&!l&&n.Char()===un.ConditionEnd&&(l=!0),n.Char()===un.CodeOpen?t+=n.ConsumeBlock(un.CodeOpen,un.CodeClose,!0):(l||(t+=n.Char()),n.Step());return n.Char()===un.Linebreak&&n.Step(),{text:t,whitespace:e,isNewCondition:i}}function a(n,t){var e=n.split(un.linebreak);return(e=e.map(function(n){return n.slice(t)})).join(un.linebreak)}for(;!n.Done();){var o=l(n);if(o.isNewCondition&&(r=o.whitespace,t[++i]="",e[i]=""),o.whitespace>=r){var u=a(o.text,r);o.isNewCondition?t[i]+=u:e[i]+=u+un.Linebreak}}e=e.map(function(n){return n.slice(0,-1)});for(var s=[],h=0;h<t.length;h++)if((d=t[h].trim())===un.Else)s.push(new on);else{var c=S(d);s.push(c)}var f=[];for(h=0;h<e.length;h++){var d=e[h],v=new g(new U,d),p=(v=w(v)).rootNode;f.push(p)}return n.curNode.AddChild(new ln(s,f)),n}(n);else if(r.HasFunction(n.Peak([" "]))){var t=n.Peak([" "]);n.Step(t.length),n=function(n,t){bitsy.log("~~~ PARSE FUNCTION "+t);var e=[],i="";function r(){i=i.trim(),e.push(y(i)),i=""}for(;"\n"!==n.Char()&&!n.Done();){if(n.MatchAhead(un.CodeOpen)){var l=new g(new $,n.ConsumeBlock(un.CodeOpen,un.CodeClose)),a=(l=d(l)).rootNode;e.push(a),i=""}else if(n.MatchAhead(un.String)){var o=n.ConsumeBlock(un.String,un.String);e.push(new Q(o)),i=""}else" "===n.Char()&&0<i.length?r():i+=n.Char();n.Step()}return 0<i.length&&r(),n.curNode.AddChild(new K(t,e)),n}(n,t)}else if(function(n){return"sequence"===n||"cycle"===n||"shuffle"===n}(n.Peak([" ",un.Linebreak]))){var e=n.Peak([" ",un.Linebreak]);n.Step(e.length),n=function(n,t){var e=[],i=-1,r=-1;function l(n){for(var t="",e=0,i=!1,r=!1;!n.Done()&&n.Char()!==un.Linebreak;)r||(" "===n.Char()||"\t"===n.Char()?e++:(r=!0,n.Char()===un.List&&(i=!0,e+=2))),n.Char()===un.CodeOpen?t+=n.ConsumeBlock(un.CodeOpen,un.CodeClose,!0):(t+=n.Char(),n.Step());return n.Char()===un.Linebreak&&n.Step(),{text:t,whitespace:e,isNewListItem:i}}function a(n,t){var e=n.split(un.linebreak);return(e=e.map(function(n){return n.slice(t)})).join(un.linebreak)}for(;!n.Done();){var o=l(n);if(o.isNewListItem&&(r=o.whitespace,e[++i]=""),o.whitespace>=r){var u=a(o.text,r);e[i]+=u+un.Linebreak}}e=e.map(function(n){return n.slice(0,-1)});for(var s=[],h=0;h<e.length;h++){var c=e[h],f=new g(new U(!1),c),d=(f=w(f)).rootNode;s.push(d)}return"sequence"===t?n.curNode.AddChild(new tn(s)):"cycle"===t?n.curNode.AddChild(new en(s)):"shuffle"===t&&n.curNode.AddChild(new rn(s)),n}(n,e)}else if(function(n){var t="true"===n||"false"===n,e=!isNaN(parseFloat(n)),i='"'===n[0]&&'"'===n[n.length-1],r=C(n),l=0===n.length;return t||e||i||r||l}(n.Source())||function(n){for(var t=new g(null,n),e="";!t.Done();)t.MatchAhead(un.CodeOpen)?t.ConsumeBlock(un.CodeOpen,un.CodeClose):(e+=t.Char(),t.Step());return-1!=e.indexOf(un.ConditionEnd)||-1!=e.indexOf(un.Set)||un.Operators.some(function(n){return-1!=e.indexOf(n)})}(n.Source()))n=function(n){var t=n.Source(),e=S(t);return n.curNode.AddChild(e),n.Step(t.length),n}(n);else{var i=new J(n.Peak([]));n.curNode.AddChild(i)}for(;!n.Done();)n.Step();return n}this.CreateExpression=S}}</script><script>function Dialog(){this.CreateRenderer=function(){return new t},this.CreateBuffer=function(){return new i};var t=function(){var u={width:104,height:19,top:12,left:12,bottom:12,padding_vert:2,padding_horz:4,arrow_height:5},s=null;function c(){return bitsy.textMode()===bitsy.TXT_LOREZ?1:2}this.SetFont=function(t){s=t,u.height=3*u.padding_vert+2*Math.ceil(s.getHeight()/c())+u.arrow_height;var i=u.width*c(),n=u.height*c();bitsy.textbox(!1,0,0,i,n)},this.GetPixelsPerRow=function(){return(u.width-2*u.padding_horz)*c()};var i=!(this.ClearTextbox=function(){bitsy.fill(bitsy.TEXTBOX,textBackgroundIndex)});this.SetCentered=function(t){i=t},this.DrawTextbox=function(){i?bitsy.textbox(!0,u.left,bitsy.VIDEO_SIZE/2-u.height/2):player().y<bitsy.MAP_SIZE/2?bitsy.textbox(!0,u.left,bitsy.VIDEO_SIZE-u.bottom-u.height):bitsy.textbox(!0,u.left,u.top)};var l=[1,1,1,1,1,0,1,1,1,0,0,0,1,0,0];function o(t,i,n,e,r,h,s){for(var o=0;o<h;o++)for(var a=0;a<r;a++){1==t[o*r+a]&&bitsy.set(bitsy.TEXTBOX,(n+o)*(u.width*i)+(e+a),s)}}this.DrawNextArrow=function(){var t=c(),i=u.width*t,n=(u.height,(u.height-5)*t),e=(u.width-9)*t;textDirection===TextDirection.RightToLeft&&(e=4*t);for(var r=0;r<3;r++)for(var h=0;h<5;h++){if(1==l[5*r+h])for(var s=0;s<t;s++)for(var o=0;o<t;o++){var a=e+h*t+o,f=n+r*t+s;bitsy.set(bitsy.TEXTBOX,f*i+a,textArrowIndex)}}},this.DrawChar=function(t,i,n,e){if(0<t.effectList.length&&(t.redraw=!0),t.redraw){t.redraw=!1;var r=c(),h=t.bitmap;0<t.effectList.length&&o(h,r,4*r+2*i*r+i*s.getHeight()+Math.floor(t.offset.y),4*r+e+Math.floor(t.offset.x),t.width,t.height,textBackgroundIndex),t.offset={x:t.base_offset.x,y:t.base_offset.y},t.SetPosition(i,n),t.ApplyEffects(a),o(h,r,4*r+2*i*r+i*s.getHeight()+Math.floor(t.offset.y),4*r+e+Math.floor(t.offset.x),t.width,t.height,t.color),f||t.OnPrint()}};var a=0,e=!0,r=!0,h=!0,f=!1;this.Draw=function(t,i,n){f=!0===n,t.DidFlipPageThisFrame()&&(h=r=!0),a+=i,e&&(bitsy.log("draw textbox"),this.DrawTextbox(),e=!1),r&&(this.ClearTextbox(),r=!1),t.ForEachActiveChar(this.DrawChar),t.CanContinue()&&h&&(this.DrawNextArrow(),h=!1),t.DidPageFinishThisFrame()&&null!=g&&(bitsy.log("page finished"),g())};var g=null;this.SetPageFinishHandler=function(t){g=t},this.Reset=function(){h=r=e=!(a=0)}},i=function(){var l=[[[]]],t=0,a=0,f=0,i=0,n=!1,g=[],C=[],h=null,d=new E,e=[];this.SetFont=function(t){h=t},this.SetPixelsPerRow=function(t){y=t},this.CurPage=function(){return l[t]},this.CurRow=function(){return this.CurPage()[a]},this.CurChar=function(){return this.CurRow()[f]},this.CurPageCount=function(){return l.length},this.CurRowCount=function(){return this.CurPage().length},this.CurCharCount=function(){return this.CurRow().length},this.ForEachActiveChar=function(t){for(var i=a+1,n=0;n<i;n++){var e=this.CurPage()[n],r=n==a?f+1:e.length,h=0;textDirection===TextDirection.RightToLeft&&(h=192);for(var s=0;s<r;s++){var o=e[s];o&&(textDirection===TextDirection.RightToLeft&&(h-=o.spacing),t(o,n,s,h),textDirection===TextDirection.LeftToRight&&(h+=o.spacing))}}},this.Reset=function(){f=a=t=0,p=n=!(l=[[[]]]),g=[],w=!(e=[])},this.DoNextChar=function(){i=0,f+1<this.CurCharCount()?f++:a+1<this.CurRowCount()?(a++,f=0):D=n=!0,null!=this.CurChar()&&(this.CurChar().isPageBreak&&(D=n=!0),this.CurChar().OnPrint())};var r=!(this.Update=function(t){T=D=!1,n||50<(i+=t)&&this.DoNextChar()});this.Skip=function(){for(bitsy.log("SKIPPP"),T=D=!(r=!0);a<this.CurRowCount()&&r;)this.DoNextChar(),n&&(a++,f=0);r&&(a=this.CurRowCount()-1,f=this.CurCharCount()-1),r=!1},this.tryInterruptSkip=function(){return!!r&&!(r=!1)},this.FlipPage=function(){n=!(T=!0),t++,f=a=0};var p=!(this.EndDialog=function(){w=!1;for(var t=0;t<e.length;t++)e[t]()}),w=!(this.Continue=function(){return bitsy.log("CONTINUE"),this.CurChar().isPageBreak?(this.EndDialog(),p=!0,this.CurChar().OnContinue(),!1):t+1<this.CurPageCount()?(bitsy.log("FLIP PAGE!"),this.FlipPage(),!0):(bitsy.log("END DIALOG!"),bitsy.textbox(!1),this.EndDialog(),!1)});function s(){this.redraw=!0,this.effectList=[],this.effectParameterList=[],this.color=textColorIndex,this.offset={x:0,y:0},this.col=0,this.row=0,this.SetPosition=function(t,i){this.row=t,this.col=i},this.ApplyEffects=function(t){for(var i=0;i<this.effectList.length;i++){var n=this.effectList[i];S[n].doEffect(this,t,this.effectParameterList[i])}};var i=null;this.SetPrintHandler=function(t){i=t},this.OnPrint=function(){null!=i&&(i(),i=null)},this.bitmap=[],this.width=0,this.height=0,this.base_offset={x:0,y:0},this.spacing=0}function o(t,i,n,e){s.call(this),this.effectList=n.slice(),this.effectParameterList=e.slice();var r=t.getChar(i);this.char=i,this.bitmap=r.data,this.width=r.width,this.height=r.height,this.base_offset.x=r.offset.x,this.base_offset.y=r.offset.y,this.spacing=r.spacing,this.blip=null,this.hasPlayedBlip=!1}function u(t,i,n){s.call(this),this.effectList=i.slice(),this.effectParameterList=n.slice();for(var e=renderer.GetDrawingSource(t)[0],r=[],h=0;h<e.length;h++)r=r.concat(e[h]);this.bitmap=r,this.width=8,this.height=8,this.spacing=8}function c(){s.call(this),this.width=0,this.height=0,this.spacing=0}function x(){s.call(this),this.width=0,this.height=0,this.spacing=0,this.isPageBreak=!0;var i=null;this.SetContinueHandler=function(t){i=t},this.OnContinue=function(){i&&i()}}function v(t,i,n,e){for(var r=0;r<i.length;r++)t.push(new o(h,i[r],n,e));return t}function b(t){for(var i=0,n=0;n<t.length;n++)i+=t[n].spacing;return i}function P(t){for(var i=0,n=0;n<t.length;n++){i+=h.getChar(t[n]).spacing}return i}this.IsActive=function(){return w},this.OnDialogEnd=function(t){w?e.push(t):t()},this.CanContinue=function(){return n};var y=192;this.AddScriptReturn=function(t){var i=l.length-1,n=l[i].length-1,e=l[i][n],r=new c;r.SetPrintHandler(t),e.push(r),w=!0},this.AddDrawing=function(t){var i=l.length-1,n=l[i].length-1,e=l[i][n],r=new u(t,g,C),h=b(e);p?(this.FlipPage(),l[i][n]=e,l.push([]),l[++i].push([]),n=0,(e=l[i][n]).push(r),p=!1):h+r.spacing<=y||h<=0?e.push(r):(0==n?(l[i][n]=e,l[i].push([]),n++):(l[i][n]=e,l.push([]),l[++i].push([]),n=0),(e=l[i][n]).push(r)),w=!0},this.AddText=function(t){bitsy.log("ADD TEXT "+t);for(var i=t.split(" "),n=l.length-1,e=l[n].length-1,r=l[n][e],h=0;h<i.length;h++){var s=i[h];d.ContainsArabicCharacters(s)&&(s=d.ShapeArabicCharacters(s));var o=(0==h?"":" ")+s,a=P(o),f=b(r);p?(this.FlipPage(),l[n][e]=r,l.push([]),l[++n].push([]),e=0,r=v(r=l[n][e],s,g,C),p=!1):r=f+a<=y||f<=0?v(r,o,g,C):(0==e?(l[n][e]=r,l[n].push([]),e++):(l[n][e]=r,l.push([]),l[++n].push([]),e=0),v(r=l[n][e],s,g,C))}var u=l[l.length-1],c=u[u.length-1];if(0==c.length&&u.splice(u.length-1,1),0==u.length&&l.splice(l.length-1,1),0<(c=(u=l[l.length-1])[u.length-1]).length)c[c.length-1];bitsy.log("add text finished"),w=!0},this.AddLinebreak=function(){var t=l[l.length-1];t.length<=1?t.push([]):l.push([[]]),w=!0},this.AddPagebreak=function(t){var i=l.length-1,n=l[i].length-1,e=l[i][n];this.CurChar()&&this.CurChar().isPageBreak&&(l.push([]),l[++i].push([]),n=0,e=l[i][n]);var r=new x;r.SetContinueHandler(t),e.push(r),w=!0},this.hasTextEffect=function(t){return-1!=g.indexOf(t)},this.pushTextEffect=function(t,i){g.push(t),C.push(i)};var D=!(this.popTextEffect=function(t){var i=g.lastIndexOf(t);g.splice(i,1),C.splice(i,1)}),T=!(this.DidPageFinishThisFrame=function(){return D});this.DidFlipPageThisFrame=function(){return T}},E=function(){var n=1569,e=1614,u=0,c=1,l=2,g=3,C={1569:[65152,65152,65152,65152],1570:[65153,65154,65153,65154],1571:[65155,65156,65155,65156],1572:[65157,65158,65157,65158],1573:[65159,65160,65159,65160],1574:[65161,65162,65163,65164],1575:[65165,65166,65165,65166],1576:[65167,65168,65169,65170],1577:[65171,65172,65171,65172],1578:[65173,65174,65175,65176],1579:[65177,65178,65179,65180],1580:[65181,65182,65183,65184],1581:[65185,65186,65187,65188],1582:[65189,65190,65191,65192],1583:[65193,65194,65193,65194],1584:[65195,65196,65195,65196],1585:[65197,65198,65197,65198],1586:[65199,65200,65199,65200],1587:[65201,65202,65203,65204],1588:[65205,65206,65207,65208],1589:[65209,65210,65211,65212],1590:[65213,65214,65215,65216],1591:[65217,65218,65219,65220],1592:[65221,65222,65223,65224],1593:[65225,65226,65227,65228],1594:[65229,65230,65231,65232],1595:[0,0,0,0],1596:[0,0,0,0],1597:[0,0,0,0],1598:[0,0,0,0],1599:[0,0,0,0],1600:[1600,1600,1600,1600],1601:[65233,65234,65235,65236],1602:[65237,65238,65239,65240],1603:[65241,65242,65243,65244],1604:[65245,65246,65247,65248],1605:[65249,65250,65251,65252],1606:[65253,65254,65255,65256],1607:[65257,65258,65259,65260],1608:[65261,65262,65261,65262],1609:[65263,65264,64488,64489],1610:[65265,65266,65267,65268],1611:[65269,65270,65269,65270],1612:[65271,65272,65271,65272],1613:[65273,65274,65273,65274],1614:[65275,65276,65275,65276]},r=[1569,1570,1571,1572,1573,1575,1583,1584,1585,1586,1608,1609,1611,1612,1613,1614];function d(t){var i=t.charCodeAt(0);return n<=i&&i<=e}function p(t){var i=t.charCodeAt(0);return-1!=r.indexOf(i)}this.ContainsArabicCharacters=function(t){for(var i=0;i<t.length;i++)if(d(t[i]))return!0;return!1},this.ShapeArabicCharacters=function(t){for(var i="",n=0;n<t.length;n++)if(d(t[n])){var e,r=0<=n-1&&d(t[n-1])&&!p(t[n-1]),h=n+1<t.length&&d(t[n+1])&&!p(t[n]);r||h?r&&!h?e=c:!r&&h?e=l:r&&h&&(e=g):e=u;var s=t[n].charCodeAt(0);if(1604==s&&h){var o=t[n+1].charCodeAt(0),a=null;if(1570==o?a=C[1611][e]:1571==o?a=C[1612][e]:1573==o?a=C[1613][e]:1575==o&&(a=C[1614][e]),null!=a){i+=String.fromCharCode(a),n++;continue}}if(e!==u){var f=C[s][e];i+=String.fromCharCode(f)}else i+=t[n]}else i+=t[n];return i}},S={};function n(e){this.doEffect=function(t,i,n){n&&0<n.length?t.color=tileColorStartIndex+n[0]:t.color=tileColorStartIndex+e}}S.rbw=new function(){this.doEffect=function(t,i,n){t.color=rainbowColorStartIndex+Math.floor(function(t,i){return(t%i+i)%i}(i/100-.5*t.col,rainbowColorCount))}},S.clr=new n,S.clr1=new n(0),S.clr2=new n(1),S.clr3=new n(2),S.wvy=new function(){this.doEffect=function(t,i,n){t.offset.y+=2*Math.sin(i/250-t.col/2)}},S.shk=new function(){function e(t,i,n,e,r){return t(i*e-n*r)}this.doEffect=function(t,i,n){t.offset.y+=1.5*e(Math.sin,i,t.col,.1,.5)*e(Math.cos,i,t.col,.3,.2)*e(Math.sin,i,t.row,2,1),t.offset.x+=1.5*e(Math.cos,i,t.row,.1,1)*e(Math.sin,i,t.col,3,.7)*e(Math.cos,i,t.col,.2,.3)}};S._debug_highlight=new function(){this.doEffect=function(t,i,n){t.color=tileColorStartIndex}}}</script><script>function TileRenderer(){bitsy.log("!!!!! NEW TILE RENDERER");var d={source:{},render:{}};function l(r,e){return r+"_"+e}function s(r,e,n){var t=bitsy.tile(),i=tileColorStartIndex+n,o=tileColorStartIndex+e;bitsy.fill(t,i);for(var u=0;u<bitsy.TILE_SIZE;u++)for(var a=0;a<bitsy.TILE_SIZE;a++){1===r[u][a]&&bitsy.set(t,u*bitsy.TILE_SIZE+a,o)}return t}function n(r,e){var n=0;return null!=r&&r.animation.isAnimated&&(n=null!=e&&null!=e?e:r.animation.frameIndex),function(r){var e=l(r.drw,r.col);return d.render[e]}(r)[n]}function t(r){for(var e in d.render)if(0===e.indexOf(r)){for(var n=d.render[e],t=0;t<n.length;t++)bitsy.delete(n[t]);delete d.render[e]}}this.GetDrawingFrame=function(r,e){return function(r){var e=l(r.drw,r.col);return null!=d.render[e]}(r)||(bitsy.log("frame render: doesn't exist "+r.id),function(r){var e=r.col,n=r.bgc,t=r.drw,i=d.source[t],o=l(t,e);void 0===d.render[o]&&(d.render[o]=[]);for(var u=0;u<i.length;u++){var a=s(i[u],e,n);d.render[o].push(a)}}(r)),n(r,e)},this.SetDrawings=function(r){d.source=r,d.render={}},this.SetDrawingSource=function(r,e){t(r),d.source[r]=e},this.GetDrawingSource=function(r){return d.source[r]},this.GetFrameCount=function(r){return d.source[r].length},this.ClearCache=function(r){if(void 0===r||!0===r)for(var e in d.render)for(var n=d.render[e],t=0;t<n.length;t++)bitsy.delete(n[t]);d.render={}},this.deleteDrawing=t}</script><script>var room={},tile={},sprite={},item={},dialog={},end={},palette={default:{name:"default",colors:[[0,0,0],[255,255,255],[255,255,255]]}},variable={},tune={},blip={},playerId="A",fontName=defaultFontName,textDirection=TextDirection.LeftToRight,names={room:{},tile:{},sprite:{},item:{},dialog:{},palette:{},tune:{},blip:{}};function updateNamesFromCurData(){function e(e){var i={};for(id in e)null!=e[id].name&&null!=e[id].name&&(i[e[id].name]=id);return i}names.room=e(room),names.tile=e(tile),names.sprite=e(sprite),names.item=e(item),names.dialog=e(dialog),names.palette=e(palette),names.tune=e(tune),names.blip=e(blip)}var state={};function resetGameState(){state.room="0",state.ava=playerId,state.pal="0",state.tune="0"}function getTitle(){return dialog[titleDialogId].src}function setTitle(e){dialog[titleDialogId]={src:e,name:null}}var version={major:8,minor:0,devBuildPhase:"RELEASE"};function getEngineVersion(){return version.major+"."+version.minor}var flags=createDefaultFlags(),engineFeatureFlags={isSoundEnabled:!0,isFontEnabled:!0,isTransitionEnabled:!0,isScriptEnabled:!0,isDialogEnabled:!0,isRendererEnabled:!0};function clearGameData(){room={},tile={},sprite={},item={},dialog={},isEnding=!(palette={default:{name:"default",colors:[[0,0,0],[255,255,255],[255,255,255]]}}),variable={},updateNamesFromCurData(),fontName=defaultFontName,textDirection=TextDirection.LeftToRight,resetGameState(),isGameOver=isGameLoaded=!1}var renderer,onInventoryChanged=null,onVariableChanged=null,onGameReset=null,onInitRoom=null,isPlayerEmbeddedInEditor=!1;engineFeatureFlags.isRendererEnabled&&(renderer=new TileRenderer);var curGameData=null,curDefaultFontData=null,isGameLoaded=!1,isGameOver=!1;function load_game(e,i,t){if(curGameData=e,dialogBuffer&&dialogBuffer.Reset(),scriptInterpreter&&scriptInterpreter.ResetEnvironment(),loadWorldFromGameData(e),bitsy.log("world loaded"),fontManager&&!isPlayerEmbeddedInEditor&&i&&(bitsy.log("load font"),curDefaultFontData=i,fontManager.AddResource(defaultFontName+fontManager.GetExtension(),i),bitsy.log("load font end")),1===flags.TXT_MODE?bitsy.textMode(bitsy.TXT_LOREZ):bitsy.textMode(bitsy.TXT_HIREZ),fontManager&&dialogBuffer){bitsy.log("get font");var n=fontManager.Get(fontName);dialogBuffer.SetFont(n),dialogRenderer.SetFont(n),bitsy.log("get font end")}dialogBuffer&&dialogBuffer.SetPixelsPerRow(dialogRenderer.GetPixelsPerRow()),setInitialVariables(),bitsy.log("ready"),onready(t),isGameLoaded=!0}function loadWorldFromGameData(e){bitsy.log("load world from game data");var i=parseWorld(e);bitsy.log("parse world done"),palette=i.palette,room=i.room,tile=i.tile,sprite=i.sprite,item=i.item,dialog=i.dialog,end=i.end,variable=i.variable,fontName=i.fontName,textDirection=i.textDirection,tune=i.tune,blip=i.blip,flags=i.flags,names=i.names,renderer&&renderer.SetDrawings(i.drawings);var t=Object.keys(room);null!=player()&&null!=player().room&&-1!=t.indexOf(player().room)?state.room=player().room:0<t.length?state.room=t[0]:state.room=null,null!=state.room&&(bitsy.log("INIT ROOM "+state.room),initRoom(state.room))}function reset_cur_game(){null!=curGameData&&(stopGame(),clearGameData(),isPlayerEmbeddedInEditor&&null!=onGameReset&&onGameReset())}function onready(e){bitsy.log("game ready!"),null==e&&(e=!0),e&&startNarrating(getTitle())}function setInitialVariables(){if(scriptInterpreter){for(id in variable){var e=variable[id];"true"===e?e=!0:"false"===e?e=!1:isNaN(parseFloat(e))||(e=parseFloat(e)),scriptInterpreter.SetVariable(id,e)}scriptInterpreter.SetOnVariableChangeHandler(onVariableChanged)}}function getOffset(e){var i={x:0,y:0},t=e.target,n=t.getBoundingClientRect();return i.x+=n.left+t.scrollLeft,i.y+=n.top+t.scrollTop,i.x=e.clientX-i.x,i.y=e.clientY-i.y,i}function stopGame(){soundPlayer&&soundPlayer.stopTune(),bitsy.log("stop GAME!")}function update(e){if(isGameLoaded||load_game(bitsy.getGameData(),bitsy.getFontData()),null==state.room&&startNarrating("",!0),transition&&transition.IsTransitionActive()||updateInput(),transition&&transition.IsTransitionActive())transition.UpdateTransition(e);else{if(bitsy.graphicsMode()!=bitsy.GFX_MAP&&bitsy.graphicsMode(bitsy.GFX_MAP),soundPlayer&&soundPlayer.update(e),isNarrating||isEnding)clearRoom();else{var i=updateAnimation(e);playerCurX=player().x,playerCurY=player().y;var t=playerPrevX!=playerCurX||playerPrevY!=playerCurY;drawRoom(room[state.room],{redrawAnimated:i,redrawAvatar:t}),playerPrevX=playerCurX,playerPrevY=playerCurY}!dialogBuffer||!dialogBuffer.IsActive()||soundPlayer&&soundPlayer.isBlipPlaying()||(dialogRenderer.Draw(dialogBuffer,e),dialogBuffer.Update(e)),dialogBuffer&&dialogBuffer.IsActive()||isEnding||curPlayerDirection!=Direction.None&&(playerHoldToMoveTimer-=e)<=0&&(movePlayer(curPlayerDirection,!1),playerHoldToMoveTimer=150)}return isGameOver&&(bitsy.log("game over"),reset_cur_game()),!0}var isAnyButtonHeld=!1,isIgnoringInput=!1;function isAnyButtonDown(){return bitsy.button(bitsy.BTN_UP)||bitsy.button(bitsy.BTN_DOWN)||bitsy.button(bitsy.BTN_LEFT)||bitsy.button(bitsy.BTN_RIGHT)||bitsy.button(bitsy.BTN_OK)}function updateInput(){if(dialogBuffer&&dialogBuffer.IsActive())soundPlayer&&soundPlayer.isBlipPlaying()||!isAnyButtonHeld&&isAnyButtonDown()&&(dialogBuffer.CanContinue()?dialogBuffer.Continue()||(isIgnoringInput=!0,curPlayerDirection=Direction.None):dialogBuffer.Skip());else if(isEnding)!isAnyButtonHeld&&isAnyButtonDown()&&(isGameOver=!0);else if(!isIgnoringInput){var e=curPlayerDirection;(curPlayerDirection=bitsy.button(bitsy.BTN_UP)?Direction.Up:bitsy.button(bitsy.BTN_DOWN)?Direction.Down:bitsy.button(bitsy.BTN_LEFT)?Direction.Left:bitsy.button(bitsy.BTN_RIGHT)?Direction.Right:Direction.None)!=Direction.None&&curPlayerDirection!=e&&(movePlayer(curPlayerDirection,!0),playerHoldToMoveTimer=500)}isAnyButtonDown()||(isIgnoringInput=!1),bitsy.button(bitsy.BTN_MENU)&&(isGameOver=!0),isAnyButtonHeld=isAnyButtonDown()}var animationCounter=0,animationTime=400;function updateAnimation(e){if(animationTime<=(animationCounter+=e)){for(id in sprite){var i=sprite[id];i.animation.isAnimated&&(i.animation.frameIndex=(i.animation.frameIndex+1)%i.animation.frameCount)}for(id in tile){var t=tile[id];t.animation.isAnimated&&(t.animation.frameIndex=(t.animation.frameIndex+1)%t.animation.frameCount)}for(id in item){var n=item[id];n.animation.isAnimated&&(n.animation.frameIndex=(n.animation.frameIndex+1)%n.animation.frameCount)}return!(animationCounter=0)}return!1}function resetAllAnimations(){for(id in sprite){var e=sprite[id];e.animation.isAnimated&&(e.animation.frameIndex=0)}for(id in tile){var i=tile[id];i.animation.isAnimated&&(i.animation.frameIndex=0)}for(id in item){var t=item[id];t.animation.isAnimated&&(t.animation.frameIndex=0)}}function getSpriteAt(e,i,t){for(id in void 0===t&&(t=state.room),sprite){var n=sprite[id];if(n.room===t&&n.x==e&&n.y==i)return id}return null}var transition,Direction={None:-1,Up:0,Down:1,Left:2,Right:3},curPlayerDirection=Direction.None,playerHoldToMoveTimer=0,playerPrevX=0,playerPrevY=0;function movePlayer(e,i){didPlayerMove=!1;var t=Object.keys(room);if(!(null==player().room||t.indexOf(player().room)<0)){var n=null;e!=Direction.Left||(n=getSpriteLeft())||isWallLeft()?e!=Direction.Right||(n=getSpriteRight())||isWallRight()?e!=Direction.Up||(n=getSpriteUp())||isWallUp()?e!=Direction.Down||(n=getSpriteDown())||isWallDown()||(player().y+=1):player().y-=1:player().x+=1:player().x-=1;var r=getExit(player().room,player().x,player().y),a=getEnding(player().room,player().x,player().y),o=getItemIndex(player().room,player().x,player().y),l=null;if(-1<o){var d=room[player().room].items[o],s=player().room;null!=item[d.id].blip&&(l=item[d.id].blip),startItemDialog(d.id,function(){room[s].items.splice(o,1),player().inventory[d.id]?player().inventory[d.id]+=1:player().inventory[d.id]=1,null!=onInventoryChanged&&onInventoryChanged(d.id)})}a?startEndingDialog(a):r?movePlayerThroughExit(r):n&&(null!=sprite[n].blip&&(l=sprite[n].blip),startSpriteDialog(n)),soundPlayer&&null!=l&&blip[l]&&soundPlayer.playBlip(blip[l])}}function movePlayerThroughExit(i){var t=function(){transition&&null!=i.transition_effect?(transition.BeginTransition(player().room,player().x,player().y,i.dest.room,i.dest.x,i.dest.y,i.transition_effect),transition.UpdateTransition(0),transition.OnTransitionComplete(function(){player().room=i.dest.room,player().x=i.dest.x,player().y=i.dest.y,state.room=i.dest.room,initRoom(state.room)})):(player().room=i.dest.room,player().x=i.dest.x,player().y=i.dest.y,state.room=i.dest.room,initRoom(state.room))};null!=i.dlg&&null!=i.dlg?startDialog(dialog[i.dlg].src,i.dlg,function(e){i.property&&!0===i.property.locked||t()},i):t()}engineFeatureFlags.isTransitionEnabled&&(transition=new TransitionManager);var backgroundIndex=0,textBackgroundIndex=1,textArrowIndex=2,textColorIndex=3,rainbowColorStartIndex=4,rainbowColorCount=10,rainbowColors=[[255,0,0],[255,217,0],[78,255,0],[0,255,125],[0,192,255],[0,18,255],[136,0,255],[255,0,242],[255,0,138],[255,0,61]];function updatePaletteWithTileColors(e){if(0<e.length){var i=e[0];bitsy.color(backgroundIndex,i[0],i[1],i[2])}else bitsy.log("no tile colors!"),bitsy.color(backgroundIndex,0,0,0);bitsy.color(textBackgroundIndex,0,0,0),bitsy.color(textArrowIndex,255,255,255),bitsy.color(textColorIndex,255,255,255);for(var t=0;t<rainbowColorCount;t++){i=rainbowColors[t];bitsy.color(rainbowColorStartIndex+t,i[0],i[1],i[2])}for(t=0;t<e.length;t++){i=e[t];bitsy.color(tileColorStartIndex+t,i[0],i[1],i[2])}}function updatePalette(e){state.pal=e,updatePaletteWithTileColors(palette[state.pal].colors)}function initRoom(e){bitsy.log("init room "+e),updatePalette(getRoomPal(e)),state.ava=null!=room[e].ava?room[e].ava:playerId,renderer&&renderer.ClearCache();for(var i=0;i<room[e].exits.length;i++)room[e].exits[i].property={locked:!1};for(i=0;i<room[e].endings.length;i++)room[e].endings[i].property={locked:!1};soundPlayer&&(room[e].tune&&"0"!==room[e].tune&&tune[room[e].tune]?room[e].tune!=state.tune&&(state.tune=room[e].tune,soundPlayer.playTune(tune[state.tune])):(state.tune="0",soundPlayer.stopTune()));drawRoom(room[e],{redrawAll:!0}),onInitRoom&&onInitRoom(e)}function getItemIndex(e,i,t){for(var n=0;n<room[e].items.length;n++){var r=room[e].items[n];if(r.x==i&&r.y==t)return n}return-1}function getSpriteLeft(){return getSpriteAt(player().x-1,player().y)}function getSpriteRight(){return getSpriteAt(player().x+1,player().y)}function getSpriteUp(){return getSpriteAt(player().x,player().y-1)}function getSpriteDown(){return getSpriteAt(player().x,player().y+1)}function isWallLeft(){return player().x-1<0||isWall(player().x-1,player().y)}function isWallRight(){return player().x+1>=bitsy.MAP_SIZE||isWall(player().x+1,player().y)}function isWallUp(){return player().y-1<0||isWall(player().x,player().y-1)}function isWallDown(){return player().y+1>=bitsy.MAP_SIZE||isWall(player().x,player().y+1)}function isWall(e,i,t){null!=t&&null!=t||(t=state.room);var n=getTile(e,i,t);return"0"!==n&&(void 0!==tile[n].isWall&&null!==tile[n].isWall?tile[n].isWall:-1<room[t].walls.indexOf(getTile(e,i,t)))}function getItem(e,t,n){for(i in room[e].items){var r=room[e].items[i];if(t==r.x&&n==r.y)return r}return null}function getExit(e,t,n){for(i in room[e].exits){var r=room[e].exits[i];if(t==r.x&&n==r.y)return r}return null}function getEnding(e,t,n){for(i in room[e].endings){var r=room[e].endings[i];if(t==r.x&&n==r.y)return r}return null}function getTile(e,i,t){return getRoom(t).tilemap[i][e]}function player(){return sprite[playerId]}function getPal(e){return void 0===palette[e]&&(e="default"),palette[e].colors}function getRoom(e){return room[void 0===e?state.room:e]}function isSpriteOffstage(e){return null==sprite[e].room}function serializeNote(e,i,t){var n=null!=i&&null!=i;!0==n?Solfa:Note;if(n&&-1===i.scale.indexOf(e))return null;if(n&&1!=t){for(var r in Solfa)if(Solfa[r]===e)return r.toLowerCase();return null}for(var r in n&&!0===t&&(e=i.notes[e]),Note)if(Note[r]===e)return r=r.replace("_SHARP","#"),!0===t&&"H"===r&&(r="C"),r;return symbol}function serializeOctave(e){for(var i in Octave)if(Octave[i]===e)return i;return"4"}function serializeWorld(e){null==e&&(e=!1),flags.VER_MAJ=version.major,flags.VER_MIN=version.minor;var i="";for(f in i+=getTitle()+"\n",i+="\n",i+="# BITSY VERSION "+getEngineVersion()+"\n","RELEASE"!=version.devBuildPhase&&(i+="# DEVELOPMENT BUILD -- "+version.devBuildPhase),i+="\n",flags)i+="! "+f+" "+flags[f]+"\n";for(id in i+="\n",fontName!=defaultFontName&&(i+="DEFAULT_FONT "+fontName+"\n",i+="\n"),textDirection!=TextDirection.LeftToRight&&(i+="TEXT_DIRECTION "+textDirection+"\n",i+="\n"),palette)if("default"!=id){for(r in i+="PAL "+id+"\n",getPal(id)){for(a in getPal(id)[r])i+=getPal(id)[r][a],a<2&&(i+=",");i+="\n"}null!=palette[id].name&&(i+="NAME "+palette[id].name+"\n"),i+="\n"}for(id in room){if(i+="ROOM "+id+"\n",0==flags.ROOM_FORMAT)for(r in room[id].tilemap){for(a in room[id].tilemap[r])i+=room[id].tilemap[r][a];i+="\n"}else if(1==flags.ROOM_FORMAT)for(r in room[id].tilemap){for(a in room[id].tilemap[r])i+=room[id].tilemap[r][a],a<room[id].tilemap[r].length-1&&(i+=",");i+="\n"}if(null!=room[id].name&&(i+="NAME "+room[id].name+"\n"),0<room[id].walls.length){for(a in i+="WAL ",room[id].walls)i+=room[id].walls[a],a<room[id].walls.length-1&&(i+=",");i+="\n"}if(0<room[id].items.length)for(a in room[id].items){var t=room[id].items[a];i+="ITM "+t.id+" "+t.x+","+t.y,i+="\n"}if(0<room[id].exits.length)for(a in room[id].exits){isExitValid(n=room[id].exits[a])&&(i+="EXT "+n.x+","+n.y+" "+n.dest.room+" "+n.dest.x+","+n.dest.y,null!=n.transition_effect&&null!=n.transition_effect&&(i+=" FX "+n.transition_effect),null!=n.dlg&&null!=n.dlg&&(i+=" DLG "+n.dlg),i+="\n")}if(0<room[id].endings.length)for(a in room[id].endings){var n;i+="END "+(n=room[id].endings[a]).id+" "+n.x+","+n.y,i+="\n"}null!=room[id].pal&&"default"!=room[id].pal&&(i+="PAL "+room[id].pal+"\n"),null!=room[id].ava&&(i+="AVA "+room[id].ava+"\n"),null!=room[id].tune&&"0"!=room[id].tune&&(i+="TUNE "+room[id].tune+"\n"),i+="\n"}for(id in tile)i+="TIL "+id+"\n",i+=serializeDrawing("TIL_"+id),null!=tile[id].name&&null!=tile[id].name&&(i+="NAME "+tile[id].name+"\n"),null!=tile[id].isWall&&null!=tile[id].isWall&&(i+="WAL "+tile[id].isWall+"\n"),null!=tile[id].col&&null!=tile[id].col&&1!=tile[id].col&&(i+="COL "+tile[id].col+"\n"),null!=tile[id].bgc&&null!=tile[id].bgc&&0!=tile[id].bgc&&(tile[id].bgc<0?i+="BGC *\n":i+="BGC "+tile[id].bgc+"\n"),i+="\n";for(id in sprite){if(i+="SPR "+id+"\n",i+=serializeDrawing("SPR_"+id),null!=sprite[id].name&&null!=sprite[id].name&&(i+="NAME "+sprite[id].name+"\n"),null!=sprite[id].dlg&&(i+="DLG "+sprite[id].dlg+"\n"),null!=sprite[id].room&&(i+="POS "+sprite[id].room+" "+sprite[id].x+","+sprite[id].y+"\n"),null!=sprite[id].inventory)for(itemId in sprite[id].inventory)i+="ITM "+itemId+" "+sprite[id].inventory[itemId]+"\n";null!=sprite[id].col&&null!=sprite[id].col&&2!=sprite[id].col&&(i+="COL "+sprite[id].col+"\n"),null!=sprite[id].bgc&&null!=sprite[id].bgc&&0!=sprite[id].bgc&&(sprite[id].bgc<0?i+="BGC *\n":i+="BGC "+sprite[id].bgc+"\n"),null!=sprite[id].blip&&null!=sprite[id].blip&&(i+="BLIP "+sprite[id].blip+"\n"),i+="\n"}for(id in item)i+="ITM "+id+"\n",i+=serializeDrawing("ITM_"+id),null!=item[id].name&&null!=item[id].name&&(i+="NAME "+item[id].name+"\n"),null!=item[id].dlg&&(i+="DLG "+item[id].dlg+"\n"),null!=item[id].col&&null!=item[id].col&&2!=item[id].col&&(i+="COL "+item[id].col+"\n"),null!=item[id].bgc&&null!=item[id].bgc&&0!=item[id].bgc&&(item[id].bgc<0?i+="BGC *\n":i+="BGC "+item[id].bgc+"\n"),null!=item[id].blip&&null!=item[id].blip&&(i+="BLIP "+item[id].blip+"\n"),i+="\n";for(id in dialog)id!=titleDialogId&&(i+="DLG "+id+"\n",i+=dialog[id].src+"\n",null!=dialog[id].name&&(i+="NAME "+dialog[id].name+"\n"),i+="\n");for(id in end)i+="END "+id+"\n",i+=end[id].src+"\n",i+="\n";for(id in variable)i+="VAR "+id+"\n",i+=variable[id]+"\n",i+="\n";for(id in tune)if("0"!==id){i+="TUNE "+id+"\n";for(var r=0;r<maxTuneLength&&r<tune[id].melody.length;r++){for(var a=0;a<barLength;a++){null===(o=serializeNote(tune[id].melody[r][a].note,tune[id].key))&&(tune[id].melody[r][a].beats=0),1!=tune[id].melody[r][a].beats&&(i+=tune[id].melody[r][a].beats),0<tune[id].melody[r][a].beats&&(i+=o),0<tune[id].melody[r][a].beats&&tune[id].melody[r][a].octave!=Octave[4]&&(i+=serializeOctave(tune[id].melody[r][a].octave)),0<tune[id].melody[r][a].beats&&null!=tune[id].melody[r][a].blip&&(i+="~"+tune[id].melody[r][a].blip),a<15&&(i+=",")}i+="\n";for(a=0;a<barLength;a++){var o;null===(o=serializeNote(tune[id].harmony[r][a].note,tune[id].key))&&(tune[id].harmony[r][a].beats=0),1!=tune[id].harmony[r][a].beats&&(i+=tune[id].harmony[r][a].beats),0<tune[id].harmony[r][a].beats&&(i+=o),0<tune[id].harmony[r][a].beats&&tune[id].harmony[r][a].octave!=Octave[4]&&(i+=serializeOctave(tune[id].harmony[r][a].octave)),0<tune[id].harmony[r][a].beats&&null!=tune[id].harmony[r][a].blip&&(i+="~"+tune[id].harmony[r][a].blip),a<15&&(i+=",")}i+="\n",r<tune[id].melody.length-1&&(i+=">",i+="\n")}if(null!=tune[id].name&&(i+="NAME "+tune[id].name+"\n"),null!=tune[id].key&&null!=tune[id].key){i+="KEY ";for(r=0;r<Solfa.COUNT;r++)i+=serializeNote(tune[id].key.notes[r]),r<Solfa.COUNT-1&&(i+=",");i+=" ";for(r=0;r<tune[id].key.scale.length;r++)i+=serializeNote(tune[id].key.scale[r],tune[id].key),r<tune[id].key.scale.length-1&&(i+=",");i+="\n"}switch(i+="TMP ",tune[id].tempo){case Tempo.SLW:i+="SLW";break;case Tempo.MED:i+="MED";break;case Tempo.FST:i+="FST";break;case Tempo.XFST:i+="XFST"}switch(i+="\n",i+="SQR ",tune[id].instrumentA){case SquareWave.P8:i+="P8";break;case SquareWave.P4:i+="P4";break;case SquareWave.P2:i+="P2"}switch(i+=" ",tune[id].instrumentB){case SquareWave.P8:i+="P8";break;case SquareWave.P4:i+="P4";break;case SquareWave.P2:i+="P2"}if(i+="\n",null!=tune[id].key&&null!=tune[id].key&&tune[id].arpeggioPattern!=ArpeggioPattern.OFF)switch(tune[id].arpeggioPattern){case ArpeggioPattern.UP:i+="ARP UP\n";break;case ArpeggioPattern.DWN:i+="ARP DWN\n";break;case ArpeggioPattern.INT5:i+="ARP INT5\n";break;case ArpeggioPattern.INT8:i+="ARP INT8\n"}i+="\n"}for(id in blip)if("0"!==id){switch(i+="BLIP "+id+"\n",0<blip[id].pitchA.beats?(i+=serializeNote(blip[id].pitchA.note),blip[id].pitchA.octave!=Octave[4]&&(i+=serializeOctave(blip[id].pitchA.octave))):i+=blip[id].pitchA.beats,i+=",",0<blip[id].pitchB.beats?(i+=serializeNote(blip[id].pitchB.note),blip[id].pitchB.octave!=Octave[4]&&(i+=serializeOctave(blip[id].pitchB.octave))):i+=blip[id].pitchB.beats,i+=",",0<blip[id].pitchC.beats?(i+=serializeNote(blip[id].pitchC.note),blip[id].pitchC.octave!=Octave[4]&&(i+=serializeOctave(blip[id].pitchC.octave))):i+=blip[id].pitchC.beats,i+="\n",null!=blip[id].name&&(i+="NAME "+blip[id].name+"\n"),i+="ENV "+blip[id].envelope.attack+" "+blip[id].envelope.decay+" "+blip[id].envelope.sustain+" "+blip[id].envelope.length+" "+blip[id].envelope.release+"\n",i+="BEAT "+blip[id].beat.time+" "+blip[id].beat.delay+"\n",i+="SQR ",blip[id].instrument){case SquareWave.P8:i+="P8";break;case SquareWave.P4:i+="P4";break;case SquareWave.P2:i+="P2"}i+="\n",!0===blip[id].doRepeat&&(i+="RPT 1\n"),i+="\n"}return fontManager&&fontName!=defaultFontName&&!e&&(i+=fontManager.GetData(fontName)),i}function serializeDrawing(e){if(!renderer)return"";var i=renderer.GetDrawingSource(e),t="";for(f in i){for(y in i[f]){var n="";for(x in i[f][y])n+=i[f][y][x];t+=n+"\n"}f<i.length-1&&(t+=">\n")}return t}function isExitValid(e){var i=0<=e.x&&e.x<bitsy.MAP_SIZE&&0<=e.y&&e.y<bitsy.MAP_SIZE,t=null!=e.dest,n=null!=e.dest.room&&0<=e.dest.x&&e.dest.x<bitsy.MAP_SIZE&&0<=e.dest.y&&e.dest.y<bitsy.MAP_SIZE;return i&&t&&n}function setTile(e,i,t,n){bitsy.set(e,t*bitsy.MAP_SIZE+i,n)}function drawTile(e,i,t){setTile(bitsy.MAP1,i,t,e)}function drawSprite(e,i,t){setTile(bitsy.MAP2,i,t,e)}function drawItem(e,i,t){setTile(bitsy.MAP2,i,t,e)}function clearRoom(){var e="default";void 0!==room&&(null!=room.pal&&null!=palette[e]&&(e=room.pal),bitsy.fill(bitsy.MAP1,0),bitsy.fill(bitsy.MAP2,0))}function drawRoomBackground(e,i,t){t||bitsy.fill(bitsy.MAP1,0);for(var n=0;n<bitsy.MAP_SIZE;n++)for(var r=0;r<bitsy.MAP_SIZE;r++){var a=e.tilemap[n][r];"0"!=a&&null==tile[a]&&(a="0",e.tilemap[n][r]=a),"0"==a||t&&!tile[a].animation.isAnimated||drawTile(getTileFrame(tile[a],i),r,n)}}function drawRoomForeground(e,i,t){t||bitsy.fill(bitsy.MAP2,0);for(var n=0;n<e.items.length;n++){var r=e.items[n];t&&!item[r.id].animation.isAnimated||drawItem(getItemFrame(item[r.id],i),r.x,r.y)}for(id in sprite){var a=sprite[id];id==playerId||a.room!==e.id||t&&!a.animation.isAnimated||drawSprite(getSpriteFrame(a,i),a.x,a.y)}}function drawRoom(e,i){if(void 0!==e&&!isNarrating){var t=i&&!0===i.redrawAll,n=i&&!0===i.redrawAnimated,r=i&&!0===i.redrawAvatar,a=i?i.frameIndex:void 0;if(r&&setTile(bitsy.MAP2,playerPrevX,playerPrevY,0),(t||n)&&(drawRoomBackground(e,a,n),drawRoomForeground(e,a,n)),(t||n||r)&&sprite[playerId]&&sprite[playerId].room===e.id){var o=sprite[playerId],l=o.x,d=o.y;state.ava&&state.ava!=playerId&&sprite[state.ava]&&(o=sprite[state.ava]),drawSprite(getSpriteFrame(o,a),l,d)}}}function getTileFrame(e,i){return renderer?renderer.GetDrawingFrame(e,i):null}function getSpriteFrame(e,i){return renderer?renderer.GetDrawingFrame(e,i):null}function getItemFrame(e,i){return renderer?renderer.GetDrawingFrame(e,i):null}function curDefaultPal(){return getRoomPal(state.room)}function getRoomPal(e){var i="default";return null==e?i:null!=room[e].pal?room[e].pal:e in palette?e:i}var dialogModule,dialogRenderer,dialogBuffer,fontManager,isDialogMode=!1,isNarrating=!1,isEnding=!1;function onExitDialog(e,i){isDialogMode=!1,bitsy.textbox(!1),isNarrating&&(isNarrating=!1,drawRoom(room[state.room],{redrawAll:!0})),isDialogPreview&&(isDialogPreview=!1,null!=onDialogPreviewEnd&&onDialogPreviewEnd()),null!=i&&null!=i&&i(e),soundPlayer&&soundPlayer.resumeTune()}function startNarrating(e,i){bitsy.log("NARRATE "+e),void 0===i&&(i=!1),isNarrating=!0,(isEnding=i)&&soundPlayer&&soundPlayer.stopTune(),bitsy.fill(bitsy.MAP1,0),bitsy.fill(bitsy.MAP2,0),startDialog(e)}function startEndingDialog(e){isEnding=isNarrating=!0;var i=e.id,t=dialog[e.id].src;1===flags.DLG_COMPAT&&end[e.id]&&(i="end_compat_"+e.id,t=end[e.id].src),isEnding&&soundPlayer&&soundPlayer.stopTune(),startDialog(t,i,function(){e.property&&!0===e.property.locked&&(isEnding=!1)},e)}function startItemDialog(e,i){var t=item[e].dlg;dialog[t]?startDialog(dialog[t].src,t,i):i()}function startSpriteDialog(e){var i=sprite[e],t=i.dlg;(1===flags.DLG_COMPAT&&null==t&&(t=i.id),dialog[t])&&startDialog(dialog[t].src,t)}function startDialog(e,i,t,n){if(bitsy.log("START DIALOG"),soundPlayer&&soundPlayer.pauseTune(),e.length<=0)onExitDialog(null,t);else{if(!dialogBuffer)return bitsy.log(e),void onExitDialog(null,t);if(!scriptInterpreter)return dialogRenderer.Reset(),dialogRenderer.SetCentered(isNarrating),dialogBuffer.Reset(),dialogBuffer.AddText(e),dialogBuffer.OnDialogEnd(function(){onExitDialog(null,t)}),void bitsy.log("dialog start end");isDialogMode=!0,dialogRenderer.Reset(),dialogRenderer.SetCentered(isNarrating),dialogBuffer.Reset(),scriptInterpreter.SetDialogBuffer(dialogBuffer);var r=function(e){dialogBuffer.OnDialogEnd(function(){onExitDialog(e,t)})};void 0===i?scriptInterpreter.Interpret(e,r):(scriptInterpreter.HasScript(i)||scriptInterpreter.Compile(i,e),scriptInterpreter.Run(i,r,n))}}engineFeatureFlags.isDialogEnabled&&(dialogModule=new Dialog,dialogRenderer=dialogModule.CreateRenderer(),dialogBuffer=dialogModule.CreateBuffer()),engineFeatureFlags.isFontEnabled&&(fontManager=new FontManager);var scriptModule,scriptInterpreter,scriptUtils,soundPlayer,isDialogPreview=!1;function startPreviewDialog(e,i){if(scriptInterpreter&&dialogBuffer){isDialogPreview=isDialogMode=isNarrating=!0,dialogRenderer.Reset(),dialogRenderer.SetCentered(!0),dialogBuffer.Reset(),scriptInterpreter.SetDialogBuffer(dialogBuffer),onDialogPreviewEnd=i;scriptInterpreter.Eval(e,function(e){dialogBuffer.OnDialogEnd(function(){onExitDialog(e,null)})})}}engineFeatureFlags.isScriptEnabled&&(bitsy.log("init script module"),scriptModule=new Script,bitsy.log("init interpreter"),scriptInterpreter=scriptModule.CreateInterpreter(),bitsy.log("init utils"),scriptUtils=scriptModule.CreateUtils(),bitsy.log("init script module end")),engineFeatureFlags.isSoundEnabled&&(soundPlayer=new SoundPlayer),bitsy.loop(update)</script><script type="text/bitsyFontData" id="ascii_small">FONT ascii_small
+SIZE 6 8
+CHAR 0
+000000
+000000
+000000
+000000
+000000
+000000
+000000
+000000
+CHAR 1
+001110
+010001
+011011
+010001
+010101
+010001
+001110
+000000
+CHAR 2
+001110
+011111
+010101
+011111
+010001
+011111
+001110
+000000
+CHAR 3
+000000
+001010
+011111
+011111
+011111
+001110
+000100
+000000
+CHAR 4
+000000
+000000
+001010
+001110
+001110
+000100
+000000
+000000
+CHAR 5
+000100
+001110
+001110
+000100
+011111
+011111
+000100
+000000
+CHAR 6
+000000
+000100
+001110
+011111
+011111
+000100
+001110
+000000
+CHAR 7
+000000
+000000
+000000
+001100
+001100
+000000
+000000
+000000
+CHAR 8
+111111
+111111
+111111
+110011
+110011
+111111
+111111
+111111
+CHAR 9
+000000
+000000
+011110
+010010
+010010
+011110
+000000
+000000
+CHAR 10
+111111
+111111
+100001
+101101
+101101
+100001
+111111
+111111
+CHAR 11
+000000
+000111
+000011
+001101
+010010
+010010
+001100
+000000
+CHAR 12
+001110
+010001
+010001
+001110
+000100
+001110
+000100
+000000
+CHAR 13
+000100
+000110
+000101
+000100
+001100
+011100
+011000
+000000
+CHAR 14
+000011
+001101
+001011
+001101
+001011
+011011
+011000
+000000
+CHAR 15
+000000
+010101
+001110
+011011
+001110
+010101
+000000
+000000
+CHAR 16
+001000
+001100
+001110
+001111
+001110
+001100
+001000
+000000
+CHAR 17
+000010
+000110
+001110
+011110
+001110
+000110
+000010
+000000
+CHAR 18
+000100
+001110
+011111
+000100
+011111
+001110
+000100
+000000
+CHAR 19
+001010
+001010
+001010
+001010
+001010
+000000
+001010
+000000
+CHAR 20
+001111
+010101
+010101
+001101
+000101
+000101
+000101
+000000
+CHAR 21
+001110
+010001
+001100
+001010
+000110
+010001
+001110
+000000
+CHAR 22
+000000
+000000
+000000
+000000
+000000
+011110
+011110
+000000
+CHAR 23
+000100
+001110
+011111
+000100
+011111
+001110
+000100
+001110
+CHAR 24
+000100
+001110
+011111
+000100
+000100
+000100
+000100
+000000
+CHAR 25
+000100
+000100
+000100
+000100
+011111
+001110
+000100
+000000
+CHAR 26
+000000
+000100
+000110
+011111
+000110
+000100
+000000
+000000
+CHAR 27
+000000
+000100
+001100
+011111
+001100
+000100
+000000
+000000
+CHAR 28
+000000
+000000
+000000
+010000
+010000
+010000
+011111
+000000
+CHAR 29
+000000
+001010
+001010
+011111
+001010
+001010
+000000
+000000
+CHAR 30
+000100
+000100
+001110
+001110
+011111
+011111
+000000
+000000
+CHAR 31
+011111
+011111
+001110
+001110
+000100
+000100
+000000
+000000
+CHAR 32
+000000
+000000
+000000
+000000
+000000
+000000
+000000
+000000
+CHAR 33
+000100
+001110
+001110
+000100
+000100
+000000
+000100
+000000
+CHAR 34
+011011
+011011
+010010
+000000
+000000
+000000
+000000
+000000
+CHAR 35
+000000
+001010
+011111
+001010
+001010
+011111
+001010
+000000
+CHAR 36
+001000
+001110
+010000
+001100
+000010
+011100
+000100
+000000
+CHAR 37
+011001
+011001
+000010
+000100
+001000
+010011
+010011
+000000
+CHAR 38
+001000
+010100
+010100
+001000
+010101
+010010
+001101
+000000
+CHAR 39
+001100
+001100
+001000
+000000
+000000
+000000
+000000
+000000
+CHAR 40
+000100
+001000
+001000
+001000
+001000
+001000
+000100
+000000
+CHAR 41
+001000
+000100
+000100
+000100
+000100
+000100
+001000
+000000
+CHAR 42
+000000
+001010
+001110
+011111
+001110
+001010
+000000
+000000
+CHAR 43
+000000
+000100
+000100
+011111
+000100
+000100
+000000
+000000
+CHAR 44
+000000
+000000
+000000
+000000
+000000
+001100
+001100
+001000
+CHAR 45
+000000
+000000
+000000
+011111
+000000
+000000
+000000
+000000
+CHAR 46
+000000
+000000
+000000
+000000
+000000
+001100
+001100
+000000
+CHAR 47
+000000
+000001
+000010
+000100
+001000
+010000
+000000
+000000
+CHAR 48
+001110
+010001
+010011
+010101
+011001
+010001
+001110
+000000
+CHAR 49
+000100
+001100
+000100
+000100
+000100
+000100
+001110
+000000
+CHAR 50
+001110
+010001
+000001
+000110
+001000
+010000
+011111
+000000
+CHAR 51
+001110
+010001
+000001
+001110
+000001
+010001
+001110
+000000
+CHAR 52
+000010
+000110
+001010
+010010
+011111
+000010
+000010
+000000
+CHAR 53
+011111
+010000
+010000
+011110
+000001
+010001
+001110
+000000
+CHAR 54
+000110
+001000
+010000
+011110
+010001
+010001
+001110
+000000
+CHAR 55
+011111
+000001
+000010
+000100
+001000
+001000
+001000
+000000
+CHAR 56
+001110
+010001
+010001
+001110
+010001
+010001
+001110
+000000
+CHAR 57
+001110
+010001
+010001
+001111
+000001
+000010
+001100
+000000
+CHAR 58
+000000
+000000
+001100
+001100
+000000
+001100
+001100
+000000
+CHAR 59
+000000
+000000
+001100
+001100
+000000
+001100
+001100
+001000
+CHAR 60
+000010
+000100
+001000
+010000
+001000
+000100
+000010
+000000
+CHAR 61
+000000
+000000
+011111
+000000
+000000
+011111
+000000
+000000
+CHAR 62
+001000
+000100
+000010
+000001
+000010
+000100
+001000
+000000
+CHAR 63
+001110
+010001
+000001
+000110
+000100
+000000
+000100
+000000
+CHAR 64
+001110
+010001
+010111
+010101
+010111
+010000
+001110
+000000
+CHAR 65
+001110
+010001
+010001
+010001
+011111
+010001
+010001
+000000
+CHAR 66
+011110
+010001
+010001
+011110
+010001
+010001
+011110
+000000
+CHAR 67
+001110
+010001
+010000
+010000
+010000
+010001
+001110
+000000
+CHAR 68
+011110
+010001
+010001
+010001
+010001
+010001
+011110
+000000
+CHAR 69
+011111
+010000
+010000
+011110
+010000
+010000
+011111
+000000
+CHAR 70
+011111
+010000
+010000
+011110
+010000
+010000
+010000
+000000
+CHAR 71
+001110
+010001
+010000
+010111
+010001
+010001
+001111
+000000
+CHAR 72
+010001
+010001
+010001
+011111
+010001
+010001
+010001
+000000
+CHAR 73
+001110
+000100
+000100
+000100
+000100
+000100
+001110
+000000
+CHAR 74
+000001
+000001
+000001
+000001
+010001
+010001
+001110
+000000
+CHAR 75
+010001
+010010
+010100
+011000
+010100
+010010
+010001
+000000
+CHAR 76
+010000
+010000
+010000
+010000
+010000
+010000
+011111
+000000
+CHAR 77
+010001
+011011
+010101
+010001
+010001
+010001
+010001
+000000
+CHAR 78
+010001
+011001
+010101
+010011
+010001
+010001
+010001
+000000
+CHAR 79
+001110
+010001
+010001
+010001
+010001
+010001
+001110
+000000
+CHAR 80
+011110
+010001
+010001
+011110
+010000
+010000
+010000
+000000
+CHAR 81
+001110
+010001
+010001
+010001
+010101
+010010
+001101
+000000
+CHAR 82
+011110
+010001
+010001
+011110
+010010
+010001
+010001
+000000
+CHAR 83
+001110
+010001
+010000
+001110
+000001
+010001
+001110
+000000
+CHAR 84
+011111
+000100
+000100
+000100
+000100
+000100
+000100
+000000
+CHAR 85
+010001
+010001
+010001
+010001
+010001
+010001
+001110
+000000
+CHAR 86
+010001
+010001
+010001
+010001
+010001
+001010
+000100
+000000
+CHAR 87
+010001
+010001
+010101
+010101
+010101
+010101
+001010
+000000
+CHAR 88
+010001
+010001
+001010
+000100
+001010
+010001
+010001
+000000
+CHAR 89
+010001
+010001
+010001
+001010
+000100
+000100
+000100
+000000
+CHAR 90
+011110
+000010
+000100
+001000
+010000
+010000
+011110
+000000
+CHAR 91
+001110
+001000
+001000
+001000
+001000
+001000
+001110
+000000
+CHAR 92
+000000
+010000
+001000
+000100
+000010
+000001
+000000
+000000
+CHAR 93
+001110
+000010
+000010
+000010
+000010
+000010
+001110
+000000
+CHAR 94
+000100
+001010
+010001
+000000
+000000
+000000
+000000
+000000
+CHAR 95
+000000
+000000
+000000
+000000
+000000
+000000
+000000
+111111
+CHAR 96
+001100
+001100
+000100
+000000
+000000
+000000
+000000
+000000
+CHAR 97
+000000
+000000
+001110
+000001
+001111
+010001
+001111
+000000
+CHAR 98
+010000
+010000
+011110
+010001
+010001
+010001
+011110
+000000
+CHAR 99
+000000
+000000
+001110
+010001
+010000
+010001
+001110
+000000
+CHAR 100
+000001
+000001
+001111
+010001
+010001
+010001
+001111
+000000
+CHAR 101
+000000
+000000
+001110
+010001
+011110
+010000
+001110
+000000
+CHAR 102
+000110
+001000
+001000
+011110
+001000
+001000
+001000
+000000
+CHAR 103
+000000
+000000
+001111
+010001
+010001
+001111
+000001
+001110
+CHAR 104
+010000
+010000
+011100
+010010
+010010
+010010
+010010
+000000
+CHAR 105
+000100
+000000
+000100
+000100
+000100
+000100
+000110
+000000
+CHAR 106
+000010
+000000
+000110
+000010
+000010
+000010
+010010
+001100
+CHAR 107
+010000
+010000
+010010
+010100
+011000
+010100
+010010
+000000
+CHAR 108
+000100
+000100
+000100
+000100
+000100
+000100
+000110
+000000
+CHAR 109
+000000
+000000
+011010
+010101
+010101
+010001
+010001
+000000
+CHAR 110
+000000
+000000
+011100
+010010
+010010
+010010
+010010
+000000
+CHAR 111
+000000
+000000
+001110
+010001
+010001
+010001
+001110
+000000
+CHAR 112
+000000
+000000
+011110
+010001
+010001
+010001
+011110
+010000
+CHAR 113
+000000
+000000
+001111
+010001
+010001
+010001
+001111
+000001
+CHAR 114
+000000
+000000
+010110
+001001
+001000
+001000
+011100
+000000
+CHAR 115
+000000
+000000
+001110
+010000
+001110
+000001
+001110
+000000
+CHAR 116
+000000
+001000
+011110
+001000
+001000
+001010
+000100
+000000
+CHAR 117
+000000
+000000
+010010
+010010
+010010
+010110
+001010
+000000
+CHAR 118
+000000
+000000
+010001
+010001
+010001
+001010
+000100
+000000
+CHAR 119
+000000
+000000
+010001
+010001
+010101
+011111
+001010
+000000
+CHAR 120
+000000
+000000
+010010
+010010
+001100
+010010
+010010
+000000
+CHAR 121
+000000
+000000
+010010
+010010
+010010
+001110
+000100
+011000
+CHAR 122
+000000
+000000
+011110
+000010
+001100
+010000
+011110
+000000
+CHAR 123
+000110
+001000
+001000
+011000
+001000
+001000
+000110
+000000
+CHAR 124
+000100
+000100
+000100
+000100
+000100
+000100
+000100
+000100
+CHAR 125
+001100
+000010
+000010
+000011
+000010
+000010
+001100
+000000
+CHAR 126
+001010
+010100
+000000
+000000
+000000
+000000
+000000
+000000
+CHAR 127
+000100
+001110
+011011
+010001
+010001
+011111
+000000
+000000
+CHAR 128
+001110
+010001
+010000
+010000
+010001
+001110
+000100
+001100
+CHAR 129
+010010
+000000
+010010
+010010
+010010
+010110
+001010
+000000
+CHAR 130
+000011
+000000
+001110
+010001
+011110
+010000
+001110
+000000
+CHAR 131
+001110
+000000
+001110
+000001
+001111
+010001
+001111
+000000
+CHAR 132
+001010
+000000
+001110
+000001
+001111
+010001
+001111
+000000
+CHAR 133
+001100
+000000
+001110
+000001
+001111
+010001
+001111
+000000
+CHAR 134
+001110
+001010
+001110
+000001
+001111
+010001
+001111
+000000
+CHAR 135
+000000
+001110
+010001
+010000
+010001
+001110
+000100
+001100
+CHAR 136
+001110
+000000
+001110
+010001
+011110
+010000
+001110
+000000
+CHAR 137
+001010
+000000
+001110
+010001
+011110
+010000
+001110
+000000
+CHAR 138
+001100
+000000
+001110
+010001
+011110
+010000
+001110
+000000
+CHAR 139
+001010
+000000
+000100
+000100
+000100
+000100
+000110
+000000
+CHAR 140
+000100
+001010
+000000
+000100
+000100
+000100
+000110
+000000
+CHAR 141
+001000
+000000
+000100
+000100
+000100
+000100
+000110
+000000
+CHAR 142
+001010
+000000
+000100
+001010
+010001
+011111
+010001
+000000
+CHAR 143
+001110
+001010
+001110
+011011
+010001
+011111
+010001
+000000
+CHAR 144
+000011
+000000
+011111
+010000
+011110
+010000
+011111
+000000
+CHAR 145
+000000
+000000
+011110
+000101
+011111
+010100
+001111
+000000
+CHAR 146
+001111
+010100
+010100
+011111
+010100
+010100
+010111
+000000
+CHAR 147
+001110
+000000
+001100
+010010
+010010
+010010
+001100
+000000
+CHAR 148
+001010
+000000
+001100
+010010
+010010
+010010
+001100
+000000
+CHAR 149
+011000
+000000
+001100
+010010
+010010
+010010
+001100
+000000
+CHAR 150
+001110
+000000
+010010
+010010
+010010
+010110
+001010
+000000
+CHAR 151
+011000
+000000
+010010
+010010
+010010
+010110
+001010
+000000
+CHAR 152
+001010
+000000
+010010
+010010
+010010
+001110
+000100
+011000
+CHAR 153
+010010
+001100
+010010
+010010
+010010
+010010
+001100
+000000
+CHAR 154
+001010
+000000
+010010
+010010
+010010
+010010
+001100
+000000
+CHAR 155
+000000
+000100
+001110
+010000
+010000
+001110
+000100
+000000
+CHAR 156
+000110
+001001
+001000
+011110
+001000
+001001
+010111
+000000
+CHAR 157
+010001
+001010
+000100
+011111
+000100
+011111
+000100
+000000
+CHAR 158
+011000
+010100
+010100
+011010
+010111
+010010
+010010
+000000
+CHAR 159
+000010
+000101
+000100
+001110
+000100
+000100
+010100
+001000
+CHAR 160
+000110
+000000
+001110
+000001
+001111
+010001
+001111
+000000
+CHAR 161
+000110
+000000
+000100
+000100
+000100
+000100
+000110
+000000
+CHAR 162
+000110
+000000
+001100
+010010
+010010
+010010
+001100
+000000
+CHAR 163
+000110
+000000
+010010
+010010
+010010
+010110
+001010
+000000
+CHAR 164
+001010
+010100
+000000
+011100
+010010
+010010
+010010
+000000
+CHAR 165
+001010
+010100
+000000
+010010
+011010
+010110
+010010
+000000
+CHAR 166
+001110
+000001
+001111
+010001
+001111
+000000
+001111
+000000
+CHAR 167
+001100
+010010
+010010
+010010
+001100
+000000
+011110
+000000
+CHAR 168
+000100
+000000
+000100
+001100
+010000
+010001
+001110
+000000
+CHAR 169
+000000
+000000
+011111
+010000
+010000
+010000
+000000
+000000
+CHAR 170
+000000
+000000
+111111
+000001
+000001
+000000
+000000
+000000
+CHAR 171
+010000
+010010
+010100
+001110
+010001
+000010
+000111
+000000
+CHAR 172
+010000
+010010
+010100
+001011
+010101
+000111
+000001
+000000
+CHAR 173
+000100
+000000
+000100
+000100
+001110
+001110
+000100
+000000
+CHAR 174
+000000
+000000
+001001
+010010
+001001
+000000
+000000
+000000
+CHAR 175
+000000
+000000
+010010
+001001
+010010
+000000
+000000
+000000
+CHAR 176
+010101
+000000
+101010
+000000
+010101
+000000
+101010
+000000
+CHAR 177
+010101
+101010
+010101
+101010
+010101
+101010
+010101
+101010
+CHAR 178
+101010
+111111
+010101
+111111
+101010
+111111
+010101
+111111
+CHAR 179
+000100
+000100
+000100
+000100
+000100
+000100
+000100
+000100
+CHAR 180
+000100
+000100
+000100
+111100
+000100
+000100
+000100
+000100
+CHAR 181
+000000
+000000
+010010
+010010
+010010
+011100
+010000
+010000
+CHAR 182
+010100
+010100
+010100
+110100
+010100
+010100
+010100
+010100
+CHAR 183
+000000
+000000
+000000
+111100
+010100
+010100
+010100
+010100
+CHAR 184
+000000
+111100
+000100
+111100
+000100
+000100
+000100
+000100
+CHAR 185
+010100
+110100
+000100
+110100
+010100
+010100
+010100
+010100
+CHAR 186
+010100
+010100
+010100
+010100
+010100
+010100
+010100
+010100
+CHAR 187
+000000
+111100
+000100
+110100
+010100
+010100
+010100
+010100
+CHAR 188
+010100
+110100
+000100
+111100
+000000
+000000
+000000
+000000
+CHAR 189
+010100
+010100
+010100
+111100
+000000
+000000
+000000
+000000
+CHAR 190
+000100
+111100
+000100
+111100
+000000
+000000
+000000
+000000
+CHAR 191
+000000
+000000
+000000
+111100
+000100
+000100
+000100
+000100
+CHAR 192
+000100
+000100
+000100
+000111
+000000
+000000
+000000
+000000
+CHAR 193
+000100
+000100
+000100
+111111
+000000
+000000
+000000
+000000
+CHAR 194
+000000
+000000
+000000
+111111
+000100
+000100
+000100
+000100
+CHAR 195
+000100
+000100
+000100
+000111
+000100
+000100
+000100
+000100
+CHAR 196
+000000
+000000
+000000
+111111
+000000
+000000
+000000
+000000
+CHAR 197
+000100
+000100
+000100
+111111
+000100
+000100
+000100
+000100
+CHAR 198
+000100
+000111
+000100
+000111
+000100
+000100
+000100
+000100
+CHAR 199
+010100
+010100
+010100
+010111
+010100
+010100
+010100
+010100
+CHAR 200
+010100
+010111
+010000
+011111
+000000
+000000
+000000
+000000
+CHAR 201
+000000
+011111
+010000
+010111
+010100
+010100
+010100
+010100
+CHAR 202
+010100
+110111
+000000
+111111
+000000
+000000
+000000
+000000
+CHAR 203
+000000
+111111
+000000
+110111
+010100
+010100
+010100
+010100
+CHAR 204
+010100
+010111
+010000
+010111
+010100
+010100
+010100
+010100
+CHAR 205
+000000
+111111
+000000
+111111
+000000
+000000
+000000
+000000
+CHAR 206
+010100
+110111
+000000
+110111
+010100
+010100
+010100
+010100
+CHAR 207
+000100
+111111
+000000
+111111
+000000
+000000
+000000
+000000
+CHAR 208
+010100
+010100
+010100
+111111
+000000
+000000
+000000
+000000
+CHAR 209
+000000
+111111
+000000
+111111
+000100
+000100
+000100
+000100
+CHAR 210
+000000
+000000
+000000
+111111
+010100
+010100
+010100
+010100
+CHAR 211
+010100
+010100
+010100
+011111
+000000
+000000
+000000
+000000
+CHAR 212
+000000
+000000
+000000
+000000
+000000
+000000
+000000
+111111
+CHAR 213
+000000
+000000
+000000
+000000
+000000
+000000
+111111
+111111
+CHAR 214
+000000
+000000
+000000
+000000
+000000
+111111
+111111
+111111
+CHAR 215
+000000
+000000
+000000
+000000
+111111
+111111
+111111
+111111
+CHAR 216
+000000
+000000
+000000
+111111
+111111
+111111
+111111
+111111
+CHAR 217
+000000
+000000
+111111
+111111
+111111
+111111
+111111
+111111
+CHAR 218
+000000
+111111
+111111
+111111
+111111
+111111
+111111
+111111
+CHAR 219
+111111
+111111
+111111
+111111
+111111
+111111
+111111
+111111
+CHAR 220
+100000
+100000
+100000
+100000
+100000
+100000
+100000
+100000
+CHAR 221
+110000
+110000
+110000
+110000
+110000
+110000
+110000
+110000
+CHAR 222
+111000
+111000
+111000
+111000
+111000
+111000
+111000
+111000
+CHAR 223
+111100
+111100
+111100
+111100
+111100
+111100
+111100
+111100
+CHAR 224
+111110
+111110
+111110
+111110
+111110
+111110
+111110
+111110
+CHAR 225
+000000
+011100
+010010
+011100
+010010
+010010
+011100
+010000
+CHAR 226
+011110
+010010
+010000
+010000
+010000
+010000
+010000
+000000
+CHAR 227
+000000
+011111
+001010
+001010
+001010
+001010
+001010
+000000
+CHAR 228
+001010
+000000
+001110
+000001
+001111
+010001
+001111
+000000
+CHAR 229
+000000
+000000
+001111
+010010
+010010
+001100
+000000
+000000
+CHAR 230
+000000
+000000
+010010
+010010
+010010
+011100
+010000
+010000
+CHAR 231
+000000
+000000
+001010
+010100
+000100
+000100
+000100
+000000
+CHAR 232
+001110
+000100
+001110
+010001
+001110
+000100
+001110
+000000
+CHAR 233
+001100
+010010
+010010
+011110
+010010
+010010
+001100
+000000
+CHAR 234
+000000
+001110
+010001
+010001
+001010
+001010
+011011
+000000
+CHAR 235
+001100
+010000
+001000
+000100
+001110
+010010
+001100
+000000
+CHAR 236
+000000
+000000
+001010
+010101
+010101
+001010
+000000
+000000
+CHAR 237
+000000
+000100
+001110
+010101
+010101
+001110
+000100
+000000
+CHAR 238
+000000
+001110
+010000
+011110
+010000
+001110
+000000
+000000
+CHAR 239
+000000
+001100
+010010
+010010
+010010
+010010
+000000
+000000
+CHAR 240
+000000
+011110
+000000
+011110
+000000
+011110
+000000
+000000
+CHAR 241
+000000
+000100
+001110
+000100
+000000
+001110
+000000
+000000
+CHAR 242
+010000
+001100
+000010
+001100
+010000
+000000
+011110
+000000
+CHAR 243
+000000
+000000
+111111
+111000
+100110
+100001
+100000
+111111
+CHAR 244
+000000
+000000
+111111
+000111
+011001
+100001
+000001
+111111
+CHAR 245
+000100
+000100
+000100
+000100
+000100
+010100
+001000
+000000
+CHAR 246
+001010
+000000
+001110
+010001
+010001
+010001
+001110
+000000
+CHAR 247
+111110
+111110
+111110
+111110
+111110
+111110
+111110
+111110
+CHAR 248
+111100
+111100
+111100
+111100
+111100
+111100
+111100
+111100
+CHAR 249
+111000
+111000
+111000
+111000
+111000
+111000
+111000
+111000
+CHAR 250
+110000
+110000
+110000
+110000
+110000
+110000
+110000
+110000
+CHAR 251
+100000
+100000
+100000
+100000
+100000
+100000
+100000
+100000
+CHAR 252
+001010
+000000
+010010
+010010
+010010
+010110
+001010
+000000
+CHAR 253
+011000
+000100
+001000
+011100
+000000
+000000
+000000
+000000
+CHAR 254
+000000
+000000
+000000
+011110
+110010
+110011
+111110
+001111
+CHAR 255
+010010
+111111
+010010
+010010
+111111
+010010
+000000
+000000
+</script>
+<script src="https://raw.githubusercontent.com/rustythehuman/rustythehuman.github.io/main/itch/00/00.js"></script> 
+ </head><body onload="startExportedGame()"><canvas id="game"></canvas></body></html>
