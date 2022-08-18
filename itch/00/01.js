@@ -1,5 +1,4 @@
 
-
 # BITSY VERSION 8.1
 
 ! VER_MAJ 8
@@ -141,4 +140,3 @@ NAME cat3 dialog
 
 VAR a
 42
-
